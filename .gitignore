@@ -9,3 +9,4 @@ dexter/public
 cache
 server.key
 celerybeat-schedule
+.vscode
