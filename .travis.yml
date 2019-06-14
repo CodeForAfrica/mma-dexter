@@ -15,6 +15,7 @@ env:
 install: 
   - "pip install -r requirements.txt"
 before_script:
+  - sudo rm -f /etc/boto.cfg
   - mysql -h 127.0.0.1 -uroot -e 'create database mma_test;'
   - mysql -h 127.0.0.1 -uroot -e 'select @@version;'
 script:
