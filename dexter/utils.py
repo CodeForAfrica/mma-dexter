@@ -2,7 +2,7 @@ from __future__ import division
 from functools import wraps
 from datetime import timedelta, datetime
 
-from flask.ext.sqlalchemy import Pagination
+from flask_sqlalchemy import Pagination
 from flask import abort, Response, make_response
 
 import nltk

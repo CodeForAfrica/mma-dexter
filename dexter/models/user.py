@@ -12,7 +12,7 @@ from sqlalchemy.orm import relationship
 import logging
 log = logging.getLogger(__name__)
 
-from flask.ext.security import UserMixin, RoleMixin
+from flask_security import UserMixin, RoleMixin
 
 from ..app import db, app
 from wtforms import StringField, validators, PasswordField
@@ -92,7 +92,7 @@ class User(db.Model, UserMixin):
         admin_user.first_name = "Admin"
         admin_user.last_name = "Admin"
         admin_user.admin = True
-        admin_user.email = "admin@code4sa.org"
+        admin_user.email = "tech@codeforafrica.org"
         admin_user.country = Country.query.filter(Country.name == 'South Africa').one()
         admin_user.password = encrypt_password('admin')
 
@@ -130,25 +130,25 @@ class LoginForm(Form):
 
 
 def default_analysis_nature_id():
-    from flask.ext.login import current_user
+    from flask_login import current_user
 
-    if current_user.is_authenticated() and current_user.default_analysis_nature_id:
+    if current_user.is_authenticated and current_user.default_analysis_nature_id:
         return current_user.default_analysis_nature_id
 
     return 1
 
 def default_country_id():
-    from flask.ext.login import current_user
+    from flask_login import current_user
 
-    if current_user.is_authenticated() and current_user.country_id is not None:
+    if current_user.is_authenticated and current_user.country_id is not None:
         return current_user.country_id
 
     return None
 
 
 # user authentication
-from flask.ext.security import Security, SQLAlchemyUserDatastore
-from flask.ext.mako import render_template
+from flask_security import Security, SQLAlchemyUserDatastore
+from flask_mako import render_template
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 app.extensions['security'].render_template = render_template

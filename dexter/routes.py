@@ -1,7 +1,7 @@
 from dexter.app import app
 from flask import request, url_for, flash, redirect, session
-from flask.ext.mako import render_template
-from flask.ext.security import current_user
+from flask_mako import render_template
+from flask_security import current_user
 from sqlalchemy.sql import func
 
 from dexter.models import db, Document, Entity, Medium
@@ -16,7 +16,7 @@ import dexter.fdi
 
 @app.route('/')
 def home():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
 
         session[str(current_user.id)] = {'search': []}
 

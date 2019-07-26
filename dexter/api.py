@@ -6,8 +6,8 @@ from dateutil.parser import parse
 log = logging.getLogger(__name__)
 
 from flask import request, url_for, redirect, jsonify, abort
-from flask.ext.security import roles_accepted, current_user, login_required
-from flask.ext import htauth
+from flask_security import roles_accepted, current_user, login_required
+import flask_htauth as htauth
 from flask_cors import cross_origin
 from sqlalchemy.orm import joinedload, lazyload
 from sqlalchemy.sql import func
@@ -398,7 +398,7 @@ def get_sources_feed(start_date, end_date, keys=None, group=None, source_type=No
 
 def filter_country(query, col, country=None):
     if not country:
-        if current_user and current_user.is_authenticated():
+        if current_user and current_user.is_authenticated:
             country = current_user.country
         else:
             country = Country.query.filter(Country.code == 'za').first()

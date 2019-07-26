@@ -42,12 +42,12 @@ def country_flag(country, **kwargs):
         return None
 
 def body_tag_args():
-    from flask.ext.login import current_user
+    from flask_login import current_user
 
     classes = []
     args = {}
 
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         classes.append('loggedin')
         args['dataUserName'] = current_user.full_name()
         args['dataUserEmail'] = current_user.email

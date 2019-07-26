@@ -2,7 +2,7 @@ import re
 import logging
 from cStringIO import StringIO
 
-from flask.ext.uploads import patch_request_class
+from flask_uploads import patch_request_class
 
 from sqlalchemy_imageattach.context import (pop_store_context, push_store_context)
 from sqlalchemy_imageattach.stores.fs import HttpExposedFileSystemStore as BaseHttpExposedFileSystemStore

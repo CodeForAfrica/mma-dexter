@@ -3,8 +3,8 @@ import logging
 log = logging.getLogger(__name__)
 
 from flask import request, url_for, flash, redirect, make_response
-from flask.ext.mako import render_template
-from flask.ext.security import roles_accepted, current_user, login_required
+from flask_mako import render_template
+from flask_security import roles_accepted, current_user, login_required
 from sqlalchemy.orm import subqueryload
 from sqlalchemy import distinct
 

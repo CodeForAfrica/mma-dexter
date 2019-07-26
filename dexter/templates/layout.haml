@@ -1,4 +1,4 @@
-- from flask.ext.login import current_user
+- from flask_login import current_user
 - from dexter.helpers import country_flag, body_tag_args
 
 !!! 5
@@ -41,7 +41,7 @@
 
           - else:
 
-            - if current_user.is_authenticated():
+            - if current_user.is_authenticated:
               .navbar-nav.navbar-btn
                 %a.btn.btn-primary(href=url_for('new_article'))
                   %i.fa.fa-plus

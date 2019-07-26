@@ -1,14 +1,16 @@
+import os
 from celery.schedules import crontab
 
 
 # uses AWS creds from the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY env variables
-BROKER_URL = 'sqs://'
-BROKER_TRANSPORT_OPTIONS = {
-    'region': 'eu-west-1',
-    'polling_interval': 15 * 1,
-    'queue_name_prefix': 'mma-dexter-',
-    'visibility_timeout': 3600,
-}
+BROKER_URL = os.environ.get('BROKER_URL','sqs://')
+if 'sqs' in BROKER_URL:
+    BROKER_TRANSPORT_OPTIONS = {
+        'region': 'eu-west-1',
+        'polling_interval': 15 * 1,
+        'queue_name_prefix': 'mma-dexter-',
+        'visibility_timeout': 3600,
+    }
 
 
 # all our tasks can by retried if the worker fails

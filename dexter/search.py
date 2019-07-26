@@ -1,7 +1,7 @@
 from dexter.app import app
 from flask import request, url_for, flash, redirect, make_response, jsonify, abort
-from flask.ext.mako import render_template
-from flask.ext.security import roles_accepted, current_user, login_required
+from flask_mako import render_template
+from flask_security import roles_accepted, current_user, login_required
 
 from dexter.models import db, Person
 

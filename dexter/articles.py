@@ -1,8 +1,8 @@
 import logging
 
 from flask import request, url_for, flash, redirect, make_response, jsonify, abort, session
-from flask.ext.mako import render_template
-from flask.ext.security import roles_accepted, current_user, login_required
+from flask_mako import render_template
+from flask_security import roles_accepted, current_user, login_required
 
 from wand.exceptions import WandError
 
@@ -166,7 +166,7 @@ def new_article():
                         doc = None
 
         if doc:
-            if current_user.is_authenticated():
+            if current_user.is_authenticated:
                 doc.created_by = current_user
                 # change analysis default for this user
                 current_user.default_analysis_nature_id = doc.analysis_nature_id
@@ -313,7 +313,7 @@ def edit_article_analysis(id):
                 with db.session.no_autoflush:
                     fdi_form.populate_obj(investment)
 
-                if current_user.is_authenticated() and not document.checked_by:
+                if current_user.is_authenticated and not document.checked_by:
                     document.checked_by = current_user
 
                 log.info("Updated analysis by %s for %s" % (current_user, document))
@@ -359,7 +359,7 @@ def edit_article_analysis(id):
                     frm.create_or_update(document)
 
                 # link to user
-                if current_user.is_authenticated() and not document.checked_by:
+                if current_user.is_authenticated and not document.checked_by:
                     document.checked_by = current_user
 
                 log.info("Updated analysis by %s for %s" % (current_user, document))
@@ -463,7 +463,7 @@ def edit_article_analysis_nature(id):
         document.analysis_nature = nature
 
         # change default for this user
-        if current_user.is_authenticated():
+        if current_user.is_authenticated:
             current_user.default_analysis_nature = nature
 
         db.session.commit()

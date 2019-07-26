@@ -1,9 +1,9 @@
-from flask.ext.admin import Admin, expose, AdminIndexView
-from flask.ext.admin.contrib.sqla import ModelView
-from flask.ext.admin.model.template import macro
+from flask_admin import Admin, expose, AdminIndexView
+from flask_admin.contrib.sqla import ModelView
+from flask_admin.model.template import macro
 from wtforms.fields import SelectField, TextAreaField
 from flask import abort
-from flask.ext.security import current_user
+from flask_security import current_user
 
 from sqlalchemy import desc, func
 
@@ -20,13 +20,13 @@ class MyModelView(ModelView):
     page_size = 50
 
     def is_accessible(self):
-        return current_user.is_authenticated() and current_user.admin
+        return current_user.is_authenticated and current_user.admin
 
 
 class MyIndexView(AdminIndexView):
     @expose('/')
     def index(self):
-        if not (current_user.is_authenticated() and current_user.admin):
+        if not (current_user.is_authenticated and current_user.admin):
             abort(403)
         return super(MyIndexView, self).index()
 
@@ -116,7 +116,7 @@ class MediumView(MyModelView):
         'domain',
         'medium_type',
         'medium_group',
-        ('country', Country.name),
+        ('country', 'country.name'),
     )
     column_filters = ['country.name']
 
@@ -146,7 +146,7 @@ class AffiliationView(MyModelView):
     column_sortable_list = (
         ('code', Affiliation.code),
         ('name', Affiliation.name),
-        ('country', Country.name),
+        ('country', 'country.name'),
     )
     column_filters = ['country.name']
     column_default_sort = ('code', False)
@@ -221,7 +221,7 @@ class LocationView(MyModelView):
     column_sortable_list = (
         ('name', Location.name),
         ('group', Location.group),
-        ('country', Country.name),
+        ('country', 'country.name'),
     )
     column_filters = ['country.name']
 

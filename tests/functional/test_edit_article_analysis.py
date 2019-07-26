@@ -1,5 +1,5 @@
-from flask.ext.testing import TestCase
-from flask.ext.fillin import FormWrapper
+from flask_testing import TestCase
+from flask_fillin import FormWrapper
 
 from . import UserSessionTestCase
 from dexter.models import Document, db

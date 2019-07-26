@@ -3,8 +3,8 @@ from datetime import timedelta, date
 from wtforms import validators, HiddenField, TextField
 
 from flask import request, jsonify
-from flask.ext.mako import render_template
-from flask.ext.security import roles_accepted, current_user, login_required
+from flask_mako import render_template
+from flask_security import roles_accepted, current_user, login_required
 from sqlalchemy_fulltext import FullTextSearch
 import sqlalchemy_fulltext.modes as FullTextMode
 

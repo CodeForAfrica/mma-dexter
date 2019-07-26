@@ -14,7 +14,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship, joinedload, lazyload
 from wtforms import SelectField, BooleanField
-from flask.ext.login import current_user
+from flask_login import current_user
 
 from ..app import db
 from ..forms import Form, MultiCheckboxField

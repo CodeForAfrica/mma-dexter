@@ -1,7 +1,7 @@
 from dexter.app import app
 
 # setup assets
-from flask.ext.assets import Environment, Bundle
+from flask_assets import Environment, Bundle
 assets = Environment(app)
 assets.url_expire = False
 assets.debug      = app.config['ENV'] == 'development'
