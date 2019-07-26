@@ -29,7 +29,7 @@ services:
       - PYTHONDONTWRITEBYTECODE=1
       - SQLALCHEMY_DATABASE_URI=mysql://mma:mma@db/mma
       - BROKER_URL=redis://redis:6379/0
-    command: python app.py runserver --host=0.0.0.0
+    # command: python app.py runserver --host=0.0.0.0
   
   worker:
     build: .
@@ -43,21 +43,6 @@ services:
       - SQLALCHEMY_DATABASE_URI=mysql://mma:mma@db/mma
       - BROKER_URL=redis://redis:6379/0
     command: celery worker --app dexter.tasks --beat --concurrency 1 --loglevel info
-  
-  bash:
-    build: .
-    depends_on:
-      - db
-      - redis
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./:/app
-    environment:
-      - PYTHONDONTWRITEBYTECODE=1
-      - SQLALCHEMY_DATABASE_URI=mysql://mma:mma@db/mma
-      - BROKER_URL=redis://redis:6379/0
-    command: /bin/bash
 
 volumes:
   archive-data: {}
