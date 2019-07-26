@@ -28,7 +28,7 @@ SQLAlchemy-FullText-Search==0.2.3
 SQLAlchemy-ImageAttach==0.8.1
 SQLAlchemy-Utils==0.30.16
 Unidecode==0.04.16
-WTForms==2.0.2
+WTForms==2.2.1
 WTForms-Alchemy==0.16.9
 WTForms-Components==0.9.7
 Wand==0.4.4
