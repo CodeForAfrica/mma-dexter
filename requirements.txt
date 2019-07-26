@@ -25,7 +25,7 @@ PyHAML==1.0.1
 PyYAML==3.10
 SQLAlchemy==1.0.8
 SQLAlchemy-FullText-Search==0.2.5
-SQLAlchemy-ImageAttach==0.8.1
+SQLAlchemy-ImageAttach==1.1.0
 SQLAlchemy-Utils==0.34.1
 Unidecode==0.04.16
 WTForms==2.2.1
