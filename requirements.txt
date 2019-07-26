@@ -49,7 +49,7 @@ certifi==2019.6.16
 cssselect==0.9.1
 decorator==4.4.0
 ecdsa==0.11
-extras==0.0.3
+extras==1.0.0
 fixture==1.5
 flower==0.7.2
 gunicorn[gevent]==19.9.0
