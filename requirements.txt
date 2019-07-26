@@ -48,7 +48,7 @@ celery==4.3.0
 certifi==2019.6.16
 cssselect==0.9.1
 decorator==4.4.0
-ecdsa==0.11
+ecdsa==0.13.2
 extras==1.0.0
 fixture==1.5
 flower==0.9.3
