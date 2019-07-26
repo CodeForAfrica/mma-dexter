@@ -39,7 +39,7 @@ alembic==1.0.11
 amqp==1.4.6
 anyjson==0.3.3
 argh==0.26.2
-backports.ssl-match-hostname==3.4.0.2
+backports.ssl-match-hostname==3.7.0.1
 beautifulsoup4==4.8.0
 billiard==3.6.0.0
 blinker==1.3
