@@ -20,7 +20,7 @@ Jinja2==2.10.1
 Mako==1.0.14
 MarkupSafe==0.23
 MySQL-python==1.2.5
-Pillow==2.3.0
+Pillow==6.1.0
 PyHAML==1.0.1
 PyYAML==3.10
 SQLAlchemy==1.0.8
