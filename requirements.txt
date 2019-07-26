@@ -82,7 +82,7 @@ tld==0.9.3
 tornado==4.0.1
 twill==0.9.1
 validators==0.8
-watchdog==0.8.3
+watchdog==0.9.0
 webassets==0.8
 wsgiref==0.1.2
 watson-developer-cloud==1.0.2
