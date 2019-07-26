@@ -59,7 +59,7 @@ itsdangerous==1.1.0
 kombu==4.6.3
 lda==1.1.0
 lxml==4.3.4
-mock==1.0.1
+mock==3.0.5
 newrelic==2.18.1.15
 newspaper==0.1.0.7
 nltk==3.4.4
