@@ -1,5 +1,5 @@
-from urlparse import urlparse
-import HTMLParser
+from urllib.parse import urlparse
+from html.parser import HTMLParser
 import requests
 from dateutil.parser import parse
 import re

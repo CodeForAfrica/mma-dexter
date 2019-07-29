@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 import logging
 from datetime import date, timedelta
 from dateutil.parser import parse
@@ -44,7 +42,7 @@ def back_process_feeds():
 
 
     else:
-        print 'Already Done!'
+        print('Already Done!')
 
 
 @app.task

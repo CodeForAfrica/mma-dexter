@@ -1,6 +1,6 @@
-from urlparse import urlparse, urlunparse
+from urllib.parse import urlparse, urlunparse
 import re
-import HTMLParser
+from html.parser import HTMLParser
 
 from bs4 import BeautifulSoup
 import requests

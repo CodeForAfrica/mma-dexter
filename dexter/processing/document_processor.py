@@ -240,7 +240,7 @@ class DocumentProcessor:
 
         parser = ElementTree.XMLParser()
         parser.parser.UseForeignDTD(True)
-        parser.entity.update((x, unichr(i)) for x, i in name2codepoint.iteritems())
+        parser.entity.update((x, unichr(i)) for x, i in name2codepoint.items())
         etree = ElementTree
 
         return etree.fromstring(r.text.encode('utf-8'), parser=parser)
@@ -549,7 +549,7 @@ class DocumentProcessorNT:
 
         parser = ElementTree.XMLParser()
         parser.parser.UseForeignDTD(True)
-        parser.entity.update((x, unichr(i)) for x, i in name2codepoint.iteritems())
+        parser.entity.update((x, unichr(i)) for x, i in name2codepoint.items())
         etree = ElementTree
 
         return etree.fromstring(r.text.encode('utf-8'), parser=parser)
@@ -573,7 +573,7 @@ class DocumentProcessorNT:
 
         parser = ElementTree.XMLParser()
         parser.parser.UseForeignDTD(True)
-        parser.entity.update((x, unichr(i)) for x, i in name2codepoint.iteritems())
+        parser.entity.update((x, unichr(i)) for x, i in name2codepoint.items())
         etree = ElementTree
 
         return etree.fromstring(r.text.encode('utf-8'), parser=parser)

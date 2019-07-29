@@ -20,7 +20,7 @@ from .forms import Form, SelectField, MultiCheckboxField, RadioField
 from .analysis import SourceAnalyser, TopicAnalyser, XLSXExportBuilder, ChildrenRatingExport, \
     MediaDiversityRatingExport, FDIExportBuilder
 
-from utils import paginate
+from .utils import paginate
 from dexter.utils import client_cache_for
 
 @app.route('/fdi')
@@ -407,7 +407,7 @@ class ActivityChartHelper:
         counts.setdefault('Fair', 0)
 
         # missing documents are considered fair
-        counts['Fair'] += len(self.doc_ids) - sum(counts.itervalues())
+        counts['Fair'] += len(self.doc_ids) - sum(counts.values())
 
         return {
             'values': counts

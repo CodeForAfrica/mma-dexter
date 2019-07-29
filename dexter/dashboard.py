@@ -19,7 +19,7 @@ from wtforms import validators, HiddenField, TextField, SelectMultipleField, Boo
 from .forms import Form, SelectField, MultiCheckboxField, RadioField
 from .analysis import SourceAnalyser, TopicAnalyser, XLSXExportBuilder, ChildrenRatingExport, MediaDiversityRatingExport
 
-from utils import paginate
+from .utils import paginate
 
 
 @app.route('/dashboard')
@@ -543,7 +543,7 @@ class ActivityChartHelper:
         counts.setdefault('Fair', 0)
 
         # missing documents are considered fair
-        counts['Fair'] += len(self.doc_ids) - sum(counts.itervalues())
+        counts['Fair'] += len(self.doc_ids) - sum(counts.values())
 
         return {
             'values': counts

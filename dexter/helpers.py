@@ -1,7 +1,7 @@
 import re
 
-from webhelpers.html import literal, lit_sub, HTML
-from webhelpers.html.converters import _universal_newline_rx, format_paragraphs as wh_format_paragraphs
+from webhelpers2.html import literal, lit_sub, HTML
+from webhelpers2.html.tools import _universal_newline_rx, text_to_html as wh_format_paragraphs
 
 newlines_re = re.compile(R"\n+")
 

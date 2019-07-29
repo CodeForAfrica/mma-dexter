@@ -2,7 +2,7 @@ from collections import OrderedDict, defaultdict
 from itertools import groupby
 
 import xlsxwriter
-import StringIO
+from io import StringIO
 from datetime import datetime
 from dateutil.parser import parse
 
@@ -85,7 +85,7 @@ class FDIExportBuilder:
         keys = [row_label] + col_labels
 
         # decompose rows into a list of values
-        data = [[label] + [r[col] for col in col_labels] for label, r in data.iteritems()]
+        data = [[label] + [r[col] for col in col_labels] for label, r in data.items()]
 
         ws.add_table(rownum, 0, rownum + len(data) + 1, len(keys) - 1, {
             'name': name,
@@ -133,7 +133,7 @@ class FDIExportBuilder:
 
         # we need to alias columns so they don't clash
         cols = []
-        for alias, table in tables.iteritems():
+        for alias, table in tables.items():
             for col in table.c:
                 if col.name not in singletons or col.name not in included:
                     included.add(col.name)

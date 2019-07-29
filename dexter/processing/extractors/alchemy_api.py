@@ -23,7 +23,7 @@ try:
     from urllib.parse import urlparse
     from urllib.parse import urlencode
 except ImportError:
-    from urlparse import urlparse
+    from urllib.parse import urlparse
     from urllib2 import urlopen
     from urllib import urlencode
 

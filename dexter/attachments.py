@@ -1,6 +1,6 @@
 import re
 import logging
-from cStringIO import StringIO
+from io import StringIO
 
 from flask_uploads import patch_request_class
 

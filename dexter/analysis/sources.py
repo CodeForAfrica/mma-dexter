@@ -124,7 +124,7 @@ class SourceAnalyser(BaseAnalyser):
         source_counts = self.source_frequencies(self.people.keys())
 
         self.analysed_people = {}
-        for pid, person in self.people.iteritems():
+        for pid, person in self.people.items():
             src = AnalysedSource()
             src.person = person
 
@@ -138,12 +138,12 @@ class SourceAnalyser(BaseAnalyser):
         totals = [0] * (self.days+1)
 
         # first count per-day totals
-        for src in self.analysed_people.itervalues():
+        for src in self.analysed_people.values():
             for i, n in enumerate(src.source_counts):
                 totals[i] += n
 
         # normalize
-        for src in self.analysed_people.itervalues():
+        for src in self.analysed_people.values():
             for i, n in enumerate(src.source_counts):
                 if totals[i] == 0:
                     src.source_counts[i] = 0
@@ -153,19 +153,19 @@ class SourceAnalyser(BaseAnalyser):
         # calculate trends
         # normalise source counts
         if self.analysed_people:
-            biggest = max(src.source_counts_total for src in self.analysed_people.itervalues())
-            for src in self.analysed_people.itervalues():
+            biggest = max(src.source_counts_total for src in self.analysed_people.values())
+            for src in self.analysed_people.values():
                 src.source_counts_trend = moving_weighted_avg_zscore(src.source_counts, 0.8)
                 src.source_counts_normalised = src.source_counts_total * 1.0 / biggest
 
         # top 20 sources
         self.top_people = sorted(
-                self.analysed_people.itervalues(),
+                self.analysed_people.values(),
                 key=lambda s: s.source_counts_total, reverse=True)[:20]
 
         # trends
         trending = sorted(
-                self.analysed_people.itervalues(),
+                self.analysed_people.values(),
                 key=lambda s: s.source_counts_trend)
 
         # top 10 trending up, most trending first

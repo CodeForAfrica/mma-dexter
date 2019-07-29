@@ -1,6 +1,6 @@
 import datetime
 import io
-from cStringIO import StringIO
+from io import StringIO
 
 from sqlalchemy import (
     Table,

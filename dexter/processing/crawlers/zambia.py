@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from urlparse import urlparse, urlunparse
+from urllib.parse import urlparse, urlunparse
 import re
 
 from bs4 import BeautifulSoup

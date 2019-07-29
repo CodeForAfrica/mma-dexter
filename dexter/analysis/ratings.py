@@ -2,7 +2,7 @@ from collections import defaultdict
 
 import xlsxwriter
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_col_to_name
-import StringIO
+from io import StringIO
 
 from sqlalchemy.sql import func
 

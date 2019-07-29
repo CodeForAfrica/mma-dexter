@@ -72,7 +72,7 @@ def mine_people():
     sa.load_people_sources()
 
     return jsonify({
-        'people': [p.json() for p in sa.people.itervalues()]
+        'people': [p.json() for p in sa.people.values()]
     })
 
 

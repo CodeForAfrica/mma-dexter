@@ -24,11 +24,11 @@ app.config.from_pyfile('config/%s.cfg' % env)
 # setup logging
 with open('%s/config/%s-logging.yaml' % (app.root_path, env)) as f:
     import yaml
-    logging.config.dictConfig(yaml.load(f))
+    logging.config.dictConfig(yaml.load(f, Loader=yaml.FullLoader))
 
 # attach the user id to logs
 from flask import request_started, session
-from logs import UserIdFilter
+from .logs import UserIdFilter
 
 def log_attach_user_id(sender, **extra):
     UserIdFilter.set_userid(session.get('user_id', '-'))

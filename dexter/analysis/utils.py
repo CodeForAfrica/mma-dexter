@@ -21,7 +21,7 @@ def calculate_entropy(table):
 
     col_labels = table.keys()
     row_labels = set()
-    for d in table.itervalues():
+    for d in table.values():
         row_labels.update(d.keys())
     row_labels = list(row_labels)
 
@@ -32,10 +32,10 @@ def calculate_entropy(table):
     # sum across all directions
     for col in col_labels:
         # sum down column
-        col_sums[col] = sum(table[col].itervalues())
+        col_sums[col] = sum(table[col].values())
 
         # sum across row
-        for row, n in table[col].iteritems():
+        for row, n in table[col].items():
             row_sums[row] += n
             total += n
 

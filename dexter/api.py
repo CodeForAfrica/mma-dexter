@@ -1,5 +1,5 @@
 import logging
-import urlparse
+import urllib.parse as urlparse
 import urllib
 from datetime import datetime, timedelta
 from dateutil.parser import parse

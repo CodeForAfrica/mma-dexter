@@ -1,4 +1,4 @@
-from urlparse import urlparse, urlunparse
+from urllib.parse import urlparse, urlunparse
 from dateutil.parser import parse
 
 import logging

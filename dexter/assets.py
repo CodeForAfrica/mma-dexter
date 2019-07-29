@@ -139,7 +139,8 @@ def assets_helper(*args, **kwargs):
             result.append(f)
 
     bundle = Bundle(*result, **kwargs)
-    urls = bundle.urls(env=assets)
+    bundle.env = assets
+    urls = bundle.urls()
 
     return urls
 
