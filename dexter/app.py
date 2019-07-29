@@ -44,8 +44,8 @@ app.config['MAKO_TRANSLATE_EXCEPTIONS'] = False
 app.config['MAKO_DEFAULT_FILTERS'] = ['decode.utf8']
 
 # CSRF protection
-from flask_wtf.csrf import CsrfProtect
-CsrfProtect(app)
+from flask_wtf.csrf import CSRFProtect
+CSRFProtect(app)
 
 # Database
 from flask_sqlalchemy import SQLAlchemy
