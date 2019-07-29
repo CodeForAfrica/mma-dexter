@@ -139,7 +139,7 @@ def assets_helper(*args, **kwargs):
             result.append(f)
 
     bundle = Bundle(*result, **kwargs)
-    bundle.env = assets
+    bundle.env = assets  # https://github.com/miracle2k/django-assets/issues/39#issuecomment-46232353
     urls = bundle.urls()
 
     return urls
