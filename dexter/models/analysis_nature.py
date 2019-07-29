@@ -1,3 +1,4 @@
+import enum
 from sqlalchemy import (
     Column,
     Integer,
@@ -31,6 +32,11 @@ class AnalysisNature(db.Model):
     ANCHOR    = 'anchor'
     ANCHOR_ID = 3
 
+    class NatureEnum(enum.Enum):
+        ELECTIONS = 'elections'
+        CHILDREN  = 'children'
+        ANCHOR    = 'anchor'
+
     ICONS = {
         ANCHOR: 'fa-dot-circle-o',
         ELECTIONS: 'fa-university',
@@ -39,7 +45,7 @@ class AnalysisNature(db.Model):
 
     id          = Column(Integer, primary_key=True)
     name        = Column(String(100), nullable=False, index=True, unique=True)
-    nature      = Column(Enum(ANCHOR, ELECTIONS, CHILDREN), nullable=False)
+    nature      = Column(Enum(NatureEnum), nullable=False)
 
     # associations
     roles       = relationship("SourceRole", secondary="analysis_nature_source_roles", lazy=True, backref="analysis_natures", order_by="SourceRole.name")
