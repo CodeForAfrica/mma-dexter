@@ -106,7 +106,7 @@ class Investment(db.Model):
         return True
 
     def __repr__(self):
-        return "<Investment id=%s, Document id=%s>" % (self.id, self.doc_id)
+        return "<Investment id={}, Document id={}>".format(self.id, self.doc_id)
 
 
 class InvestmentType(db.Model):
@@ -119,7 +119,7 @@ class InvestmentType(db.Model):
     name = Column(String(50), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Investment type='%s'>" % (self.name)
+        return "<Investment type='{}'>".format(self.name)
 
     @classmethod
     def create_defaults(self):
@@ -155,7 +155,7 @@ class Sectors(db.Model):
     name = Column(String(130), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Sector='%s'>" % (self.name)
+        return "<Sector='{}'>".format(self.name)
 
     @classmethod
     def create_defaults(self):
@@ -275,7 +275,7 @@ class Phases(db.Model):
     name = Column(String(50), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Phase='%s'>" % (self.name)
+        return "<Phase='{}'>".format(self.name)
 
     @classmethod
     def create_defaults(self):
@@ -311,7 +311,7 @@ class Currencies(db.Model):
     name = Column(String(50), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Currency='%s'>" % (self.name)
+        return "<Currency='{}'>".format(self.name)
 
     @classmethod
     def create_defaults(self):
@@ -506,7 +506,7 @@ class InvestmentOrigins(db.Model):
     name = Column(String(55), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Investment origin='%s'>" % (self.name)
+        return "<Investment origin='{}'>".format(self.name)
 
     @classmethod
     def create_defaults(self):
@@ -730,7 +730,7 @@ class InvestmentLocations(db.Model):
     name = Column(String(50), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Investment location='%s'>" % (self.name)
+        return "<Investment location='{}'>".format(self.name)
 
 
 class Involvements1(db.Model):
@@ -743,7 +743,7 @@ class Involvements1(db.Model):
     name = Column(String(50), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Involvements1='%s'>" % (self.name)
+        return "<Involvements1='{}'>".format(self.name)
 
     @classmethod
     def create_defaults(self):
@@ -778,7 +778,7 @@ class Involvements2(db.Model):
     name = Column(String(50), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Involvements2='%s'>" % (self.name)
+        return "<Involvements2='{}'>".format(self.name)
 
     @classmethod
     def create_defaults(self):
@@ -881,7 +881,7 @@ class Involvements3(db.Model):
     name = Column(String(50), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Involvements3='%s'>" % (self.name)
+        return "<Involvements3='{}'>".format(self.name)
 
     @classmethod
     def create_defaults(self):
@@ -930,7 +930,7 @@ class Industries(db.Model):
     name = Column(String(50), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Industry='%s'>" % (self.name)
+        return "<Industry='{}'>".format(self.name)
 
     @classmethod
     def create_defaults(self):
@@ -973,7 +973,7 @@ class Provinces(db.Model):
     name = Column(String(50), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Provinces='%s'>" % (self.name)
+        return "<Provinces='{}'>".format(self.name)
 
     @classmethod
     def create_defaults(self):
@@ -1013,7 +1013,7 @@ class ValueUnits(db.Model):
     name = Column(String(50), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Value unit='%s'>" % (self.name)
+        return "<Value unit='{}'>".format(self.name)
 
     @classmethod
     def create_defaults(self):

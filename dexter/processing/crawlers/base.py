@@ -19,7 +19,7 @@ class BaseCrawler(object):
 
         # Needed to handle urls being recieved without protocol (http[s]://), check if it can be parsed first, then handle and re parse if there is no netloc found
         if '//' not in url:
-            url = '%s%s' % ('http://', url)
+            url = '{}{}'.format('http://', url)
 
         parts = urlparse(url)
 

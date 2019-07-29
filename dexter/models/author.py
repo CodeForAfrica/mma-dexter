@@ -45,7 +45,7 @@ class Author(db.Model):
 
 
     def __repr__(self):
-        return "<Author id=%s, type=%s, name=\"%s\", person=%s>" % (self.id, self.author_type, self.person, self.name.encode('utf-8'))
+        return "<Author id={}, type={}, name=\"{}\", person={}>".format(self.id, self.author_type, self.person, self.name.encode('utf-8'))
 
     @classmethod
     def unknown(cls):
@@ -81,7 +81,7 @@ class AuthorType(db.Model):
     name      = Column(String(150), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<AuthorType name='%s'>" % (self.name)
+        return "<AuthorType name='{}'>".format(self.name)
 
     @classmethod
     def journalist(cls):

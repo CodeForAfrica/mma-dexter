@@ -62,7 +62,7 @@ class User(db.Model, UserMixin):
         return s
 
     def full_name(self):
-        s = '%s %s' % (self.first_name or '', self.last_name or '')
+        s = '{} {}'.format(self.first_name or '', self.last_name or '')
         s = s.strip()
 
         if not s:
@@ -72,7 +72,7 @@ class User(db.Model, UserMixin):
 
 
     def __repr__(self):
-        return "<User email=%s>" % (self.email,)
+        return "<User email={}>".format(self.email,)
 
     # Flask-Security requires an active attribute
     @property

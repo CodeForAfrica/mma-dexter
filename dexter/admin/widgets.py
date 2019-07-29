@@ -17,7 +17,7 @@ class CheckboxSelectWidget(widgets.Select):
         kwargs['class'] = ''
         kwargs['name'] = field.name
 
-        html = ['<div class="checkbox-list %s">' % class_]
+        html = ['<div class="checkbox-list {}">'.format(class_)]
         for val, label, selected in field.iter_choices():
             html.append(self.render_option(val, label, selected, **kwargs))
         html.append('</div>')
@@ -29,4 +29,4 @@ class CheckboxSelectWidget(widgets.Select):
         options['type'] = 'checkbox'
         if selected:
             options['checked'] = True
-        return HTMLString('<div class="checkbox"><label><input %s> %s</label></div>' % (html_params(**options), escape(text_type(label))))
+        return HTMLString('<div class="checkbox"><label><input {}> {}</label></div>'.format(html_params(**options), escape(text_type(label))))

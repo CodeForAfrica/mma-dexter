@@ -64,7 +64,7 @@ class Entity(db.Model):
             and unidecode(self.name).lower() == unidecode(other.name).lower()
 
     def __repr__(self):
-        return "<Entity id=%s, group=\"%s\", name=\"%s\">" % (self.id, self.group.encode('utf-8'), self.name.encode('utf-8'))
+        return "<Entity id={}, group=\"{}\", name=\"{}\">".format(self.id, self.group.encode('utf-8'), self.name.encode('utf-8'))
 
     @classmethod
     def get_or_create(cls, group, name):
@@ -119,7 +119,7 @@ class DocumentEntity(db.Model, WithOffsets):
 
 
     def __repr__(self):
-        return "<DocumentEntity doc=%s, entity=%s, relevance=%f, count=%d>" % (
+        return "<DocumentEntity doc={}, entity={}, relevance={}, count={}>".format(
                 self.document, self.entity, self.relevance, self.count)
 
 Index('doc_entity_doc_id_entity_id_ix', DocumentEntity.doc_id, DocumentEntity.entity_id, unique=True)

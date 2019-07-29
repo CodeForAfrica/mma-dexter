@@ -42,7 +42,7 @@ def fdi_home():
         excel = FDIExportBuilder(form).build()
 
         response = make_response(excel)
-        response.headers["Content-Disposition"] = "attachment; filename=%s" % form.filename()
+        response.headers["Content-Disposition"] = "attachment; filename{}".format(form.filename())
         response.headers["Content-Type"] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         return response
 
@@ -321,7 +321,7 @@ class FDI(Form):
         else:
             ext = self.format.data
 
-        return "%s.%s" % ('-'.join(filename), ext)
+        return "{}.{}".format('-'.join(filename), ext)
 
 
 class ActivityChartHelper:

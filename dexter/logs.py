@@ -11,7 +11,7 @@ class UserIdFilter(logging.Filter):
     This filter adds a userid parameter to the logging context.
     """
     def filter(self, record):
-        record.userid = 'userid:%s' % getattr(self._storage, 'flask_userid', '-')
+        record.userid = 'userid:{}'.format(getattr(self._storage, 'flask_userid', '-'))
         return record
 
     @classmethod

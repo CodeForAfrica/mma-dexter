@@ -174,7 +174,7 @@ class TopicAnalyser(BaseAnalyser):
         n_topics = max(min(50, len(docs)/5), 1)
 
         # list of entity maps for each document, from entity name to occurrence count
-        entities = [dict(('%s-%s' % (de.entity.group, de.entity.name), de.count or 1)
+        entities = [dict(('{}-{}'.format(de.entity.group, de.entity.name), de.count or 1)
                          for de in d.entities) for d in docs]
         vec = DictVectorizer(sparse=True)
 

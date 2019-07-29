@@ -19,11 +19,11 @@ class CalaisExtractor(BaseExtractor):
 
     def extract(self, doc):
         if doc.text:
-            log.info("Extracting things for %s" % doc)
+            log.info("Extracting things for {}".format(doc))
 
             calais = self.fetch_data(doc)
 
-            log.debug("Raw calais extractions: %s" % calais)
+            log.debug("Raw calais extractions: {}".format(calais))
 
             self.extract_entities(doc, calais)
             self.extract_utterances(doc, calais)
@@ -51,7 +51,7 @@ class CalaisExtractor(BaseExtractor):
                 if doc.add_entity(de):
                     entities_added += 1
 
-        log.info("Added %d entities for %s" % (entities_added, doc))
+        log.info("Added {} entities for {}".format(entities_added, doc))
 
     def extract_utterances(self, doc, calais):
         utterances_added = 0
@@ -72,7 +72,7 @@ class CalaisExtractor(BaseExtractor):
             if doc.add_utterance(u):
                 utterances_added += 1
 
-        log.info("Added %d utterances for %s" % (utterances_added, doc))
+        log.info("Added {} utterances for {}".format(utterances_added, doc))
 
     def extract_topics(self, doc, calais):
         added = 0
@@ -85,14 +85,14 @@ class CalaisExtractor(BaseExtractor):
                 dt.score = topic['score']
                 added += 1
 
-        log.info("Added %d topics for %s" % (added, doc))
+        log.info("Added {} topics for {}".format(added, doc))
 
     def fetch_data(self, doc):
         if not doc.raw_calais:
             # fetch it
             # NOTE: set the ENV variable CALAIS_API_KEY before running the process
             if not self.API_KEY:
-                raise ValueError('%s.%s.API_KEY must be defined.' % (self.__module__, self.__class__.__name__))
+                raise ValueError('{}.{}.API_KEY must be defined.'.format(self.__module__, self.__class__.__name__))
 
             res = requests.post(
                 'https://api.thomsonreuters.com/permid/calais',

@@ -235,14 +235,14 @@ class Document(FullText, db.Model):
         """ Update the default affiilations for people sources linked to this
         document.
         """
-        self.log.info("Relearning source affiliations %s" % self)
+        self.log.info("Relearning source affiliations {}".format(self))
 
         people = set()
         for source in (s for s in self.sources if s.person):
             if source.affiliation is not None and source.affiliation != source.person.affiliation:
                 people.add(source.person)
 
-        self.log.debug("Relearning source affiliations for %s", people)
+        self.log.debug("Relearning source affiliations for {}".format(people))
 
         for person in people:
             person.relearn_affiliation()
@@ -310,7 +310,7 @@ class Document(FullText, db.Model):
         return suggestions
 
     def __repr__(self):
-        return "<Document id=%s, url=%s>" % (self.id, self.url)
+        return "<Document id={}, url={}>".format(self.id, self.url)
 
 
 @event.listens_for(Document.text, 'set')
@@ -362,7 +362,7 @@ class DocumentForm(Form):
 
         self.medium_id.choices = [['', '(none)']] + Medium.for_select_widget()
         self.document_type_id.choices = [[str(t.id), t.name] for t in DocumentType.query.order_by(DocumentType.name).all()]
-        self.analysis_nature_id.choices = [[str(t.id), 'Analyse for %s' % t.name] for t in AnalysisNature.all()]
+        self.analysis_nature_id.choices = [[str(t.id), 'Analyse for {}'.format(t.name)] for t in AnalysisNature.all()]
         self.country_id.choices = [[str(c.id), c.name] for c in Country.all()]
 
         if self.tags.data is not None and not isinstance(self.tags.data, basestring):
@@ -404,7 +404,7 @@ class DocumentType(db.Model):
     name      = Column(String(100), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<DocumentType name='%s'>" % (self.name.encode('utf-8'),)
+        return "<DocumentType name='{}'>".format(self.name.encode('utf-8'))
 
     @classmethod
     def create_defaults(self):

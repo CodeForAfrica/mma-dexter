@@ -26,7 +26,7 @@ class Fairness(db.Model):
     name      = Column(String(50), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Fairness name='%s'>" % (self.name)
+        return "<Fairness name='{}'>".format(self.name)
 
 
     @classmethod
@@ -76,7 +76,7 @@ class DocumentFairness(db.Model):
     bias_oppose = relationship("Affiliation", lazy=False, foreign_keys=[bias_oppose_affiliation_id])
 
     def __repr__(self):
-        return "<DocumentFairness id=%s, doc=%s, fairness=%s>" % (self.id, self.document, self.fairness)
+        return "<DocumentFairness id={}, doc={}, fairness={}>".format(self.id, self.document, self.fairness)
 
 
 class DocumentFairnessForm(Form):
@@ -146,7 +146,7 @@ class Affiliation(db.Model):
         return [int(k) if k else 0 for k in self.code.split('.')]
 
     def __repr__(self):
-        return "<Affiliation code='%s', name='%s'>" % (self.code.encode('utf-8'), self.name.encode('utf-8'))
+        return "<Affiliation code='{}', name='{}'>".format(self.code.encode('utf-8'), self.name.encode('utf-8'))
 
     @classmethod
     def organisations(cls, country):

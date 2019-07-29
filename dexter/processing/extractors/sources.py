@@ -37,7 +37,7 @@ class SourcesExtractor(BaseExtractor):
             # so protect against it
             for entity in (e for e in tomatch if not e.person):
                 name = self.clean_name(entity.name)
-                self.log.info("Trying to match entity '%s' to a person as '%s'" % (entity.name, name))
+                self.log.info("Trying to match entity '{}' to a person as '{}'".format(entity.name, name))
 
                 match = None
                 entity_name_len = len(name)
@@ -62,10 +62,10 @@ class SourcesExtractor(BaseExtractor):
 
                 if match:
                     count += 1
-                    self.log.info("Matched entity %s to person %s" % (entity, match))
+                    self.log.info("Matched entity {} to person {}".format(entity, match))
                     entity.person = match
 
-        self.log.info("Matched %s entities to people" % count)
+        self.log.info("Matched {} entities to people".format(count))
 
     def clean_name(self, name):
         return self.NAME_DIRTY_RE.sub('', name)
@@ -75,7 +75,7 @@ class SourcesExtractor(BaseExtractor):
         Add quoted entities as a source, but only if they
         tie up with an actual person.
         """
-        self.log.info("Extracting sources for %s" % doc)
+        self.log.info("Extracting sources for {}".format(doc))
 
         sources_added = 0
 
@@ -92,7 +92,7 @@ class SourcesExtractor(BaseExtractor):
                 if doc.add_source(s):
                     sources_added += 1
 
-        self.log.info("Added %d sources for %s" % (sources_added, doc))
+        self.log.info("Added {} sources for {}".format(sources_added, doc))
 
     def guess_genders(self, doc):
         """ Guess genders based on mentioned people and 'his', 'her' etc. """

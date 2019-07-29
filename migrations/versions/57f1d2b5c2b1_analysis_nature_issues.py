@@ -32,7 +32,7 @@ def upgrade():
     from dexter.models import AnalysisNature
     for nature in AnalysisNature.all():
         op.execute("INSERT INTO analysis_nature_issues (analysis_nature_id, issue_id)" +
-                   " SELECT %d, id from issues where analysis_nature_id is null" % nature.id)
+                   " SELECT {}, id from issues where analysis_nature_id is null".format(nature.id))
 
 
 def downgrade():

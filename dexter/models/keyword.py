@@ -25,7 +25,7 @@ class DocumentKeyword(db.Model, WithOffsets):
     offset_list  = Column(String(1024))
 
     def __repr__(self):
-        return "<DocumentKeyword keyword='%s', relevance=%f, doc=%s>" % (
+        return "<DocumentKeyword keyword='{}', relevance={}, doc={}>".format(
                 self.keyword.encode('utf-8'), self.relevance, self.document)
 
 Index('doc_keyword_doc_id_keyword_ix', DocumentKeyword.doc_id, DocumentKeyword.keyword, unique=True)

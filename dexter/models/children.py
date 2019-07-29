@@ -23,7 +23,7 @@ class SourceRole(db.Model):
     indication  = Column(Enum('positive', 'negative', 'neutral', name='indication_enum'), server_default='neutral', nullable=False)
 
     def __repr__(self):
-        return "<SourceRole name='%s'>" % (self.name.encode('utf-8'),)
+        return "<SourceRole name='{}'>".format(self.name.encode('utf-8'),)
 
     @classmethod
     def create_defaults(self):
@@ -99,7 +99,7 @@ class SourceAge(db.Model):
     name        = Column(String(100), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<SourceAge name='%s'>" % (self.name.encode('utf-8'),)
+        return "<SourceAge name='{}'>".format(self.name.encode('utf-8'))
   
     @classmethod
     def all(cls):

@@ -58,7 +58,7 @@ def show_person(id):
 
     form = PersonForm(obj=person)
     form.alias_entity_ids.choices = sorted(
-            [[str(e.id), '%s (%s, %d)' % (e.name, e.group, e.id)] for e in person.entities],
+            [[str(e.id), '{} ({}, {})'.format(e.name, e.group, e.id)] for e in person.entities],
             key=lambda t: t[1])
 
     if request.method == 'POST':
@@ -128,7 +128,7 @@ def merge_person(id):
             dup = Person.query.get(request.args['mergein'])
             if dup:
                 dup.merge_into(person)
-                flash('Merged %s into %s.' % (dup.name, person.name))
+                flash('Merged {} into {}.'.format(dup.name, person.name))
                 db.session.commit()
 
     return redirect(url_for('show_person', id=id))

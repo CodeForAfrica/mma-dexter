@@ -23,7 +23,7 @@ class Principle(db.Model):
     analysis_nature_id = Column(Integer, ForeignKey("analysis_natures.id"))
 
     def __repr__(self):
-        return "<Principle name='%s'>" % (self.name.encode('utf-8'),)
+        return "<Principle name='{}'>".format(self.name.encode('utf-8'))
 
     @classmethod
     def create_defaults(self):

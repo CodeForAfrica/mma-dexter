@@ -5,7 +5,7 @@ from flask_assets import Environment, Bundle
 assets = Environment(app)
 assets.url_expire = False
 assets.debug      = app.config['ENV'] == 'development'
-assets.directory  = '%s/public' % app.config.root_path
+assets.directory  = '{}/public'.format(app.config.root_path)
 assets.load_path  = ['assets']
 assets.url        = '/public'
 

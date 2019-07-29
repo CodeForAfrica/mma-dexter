@@ -15,7 +15,7 @@ class DocumentIssue(db.Model):
     issue_id  = Column(Integer, ForeignKey('issues.id'), index=True, nullable=False)
 
     def __repr__(self):
-        return "<DocumentIssue issue='%s', doc=%s>" % (
+        return "<DocumentIssue issue='{}', doc={}>".format(
             self.issue.encode('utf-8'), self.document)
 
 Index('doc_issue_doc_id_issue_ix', DocumentIssue.doc_id, DocumentIssue.issue_id, unique=True)
@@ -32,7 +32,7 @@ class Issue(db.Model):
     description = Column(String(100), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Issue name='%s'>" % (self.name.encode('utf-8'),)
+        return "<Issue name='{}'>".format(self.name.encode('utf-8'))
 
     def __str__(self):
         return self.name.encode('utf-8')

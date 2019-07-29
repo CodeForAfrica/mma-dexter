@@ -29,7 +29,7 @@ class TestCluster(unittest.TestCase):
         self.db.drop_all()
 
     def make_docs(self):
-        docs = [Document(url='foo-%s' % i) for i in xrange(3)]
+        docs = [Document(url='foo-{}'.format(i)) for i in range(3)]
         for d in docs:
             d.published_at = datetime.datetime.now()
             d.medium = Medium.query.first()

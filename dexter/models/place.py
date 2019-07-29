@@ -70,15 +70,15 @@ class Place(db.Model):
 
     @property
     def name(self):
-        return getattr(self, '%s_name' % self.level)
+        return getattr(self, '{}_name'.format(self.level))
 
     @property
     def code(self):
-        return getattr(self, '%s_code' % self.level)
+        return getattr(self, '{}_code'.format(self.level))
 
     @property
     def geo_id(self):
-        return '%s-%s' % (self.level, self.code)
+        return '{}-{}'.format(self.level, self.code)
 
     @property
     def geo_type(self):
@@ -93,9 +93,9 @@ class Place(db.Model):
         """ Data for this place. If it's a point, a lat,lng string.
         Otherwise a level-id string."""
         if self.lat and self.lng:
-            return '%s, %s' % (self.lat, self.lng)
+            return '{}, {}'.format(self.lat, self.lng)
         else:
-            return '%s-%s' % (self.level, self.code)
+            return '{}-{}'.format(self.level, self.code)
 
 
     def as_dict(self):
@@ -115,7 +115,7 @@ class Place(db.Model):
 
 
     def __repr__(self):
-        return "<Place level=%s, province=%s, muni=%s, mainplace='%s', subplace='%s'>" % (
+        return "<Place level={}, province={}, muni={}, mainplace='{}', subplace='{}'>".format(
                 self.level, self.province_code, self.municipality_code,
                 self.mainplace_name, self.subplace_name)
 
@@ -138,7 +138,7 @@ class Place(db.Model):
                 .filter(Place.level == 'municipality')\
                 .filter(or_(
                     Place.municipality_name == term,
-                    Place.municipality_name == 'City of %s' % term)).first()
+                    Place.municipality_name == 'City of {}'.format(term))).first()
         if p:
             return p
 
@@ -146,7 +146,7 @@ class Place(db.Model):
                 .filter(Place.level == 'mainplace')\
                 .filter(or_(
                     Place.mainplace_name == term,
-                    Place.mainplace_name == '%s MP' % term)).first()
+                    Place.mainplace_name == '{} MP'.format(term))).first()
         if p:
             return p
 
@@ -155,7 +155,7 @@ class Place(db.Model):
         #        .filter(Place.level == 'subplace')\
         #        .filter(or_(
         #            Place.subplace_name == term,
-        #            Place.subplace_name == '%s SP' % term)).first()
+        #            Place.subplace_name == '{} SP'.format(term))).first()
         #if p:
         #    return p
 
@@ -191,7 +191,7 @@ class DocumentPlace(db.Model, WithOffsets):
 
 
     def __repr__(self):
-        return "<DocumentPlace id=%s, place=%s, relevance=%s, doc=%s>" % (self.id, self.place, self.relevance, self.document)
+        return "<DocumentPlace id={}, place={}, relevance={}, doc={}>".format(self.id, self.place, self.relevance, self.document)
 
 
     @classmethod

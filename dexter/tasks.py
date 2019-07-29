@@ -66,7 +66,7 @@ def fetch_filtered_daily_feeds(self, day, filter_parm):
             get_feed_item.delay(item)
             count += 1
     except Exception as e:
-        log.error("Error processing daily feeds for %s" % day, exc_info=e)
+        log.error("Error processing daily feeds for {}".format(day), exc_info=e)
         self.retry(exc=e)
 
     if count == 0:
@@ -88,7 +88,7 @@ def fetch_daily_feeds(self, day):
             get_feed_item.delay(item)
             count += 1
     except Exception as e:
-        log.error("Error processing daily feeds for %s" % day, exc_info=e)
+        log.error("Error processing daily feeds for {}".format(day), exc_info=e)
         self.retry(exc=e)
 
     if count == 0:
@@ -104,7 +104,7 @@ def get_feed_item(self, item):
         dp = DocumentProcessorNT()
         dp.process_feed_item(item)
     except Exception as e:
-        log.error("Error processing feed item: %s" % item, exc_info=e)
+        log.error("Error processing feed item: {}".format(item), exc_info=e)
         self.retry()
 
 
@@ -115,4 +115,4 @@ def backfill_taxonomies():
         dp = DocumentProcessorNT()
         dp.backfill_taxonomies()
     except Exception as e:
-        log.error("Error backfilling taxonomies: %s" % e.message, exc_info=e)
+        log.error("Error backfilling taxonomies: {}".format(e.message), exc_info=e)

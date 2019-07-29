@@ -77,12 +77,12 @@ class ExtendedSelectWidget(SelectWidget):
         kwargs.setdefault('id', field.id)
         if self.multiple:
             kwargs['multiple'] = True
-        html = ['<select %s>' % html_params(name=field.name, **kwargs)]
+        html = ['<select {}>'.format(html_params(name=field.name, **kwargs))]
         for item1, item2 in field.choices:
             if isinstance(item2, (list,tuple)):
                 group_label = item1
                 group_items = item2
-                html.append('<optgroup %s>' % html_params(label=group_label))
+                html.append('<optgroup {}>'.format(html_params(label=group_label)))
                 for inner_val, inner_label in group_items:
                     html.append(self.render_option(inner_val, inner_label, inner_val == field.data))
                 html.append('</optgroup>')

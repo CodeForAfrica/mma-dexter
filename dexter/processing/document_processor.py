@@ -15,8 +15,8 @@ from .extractors import WatsonExtractor, CalaisExtractor, SourcesExtractor, Plac
 class DocumentProcessor:
     log = logging.getLogger(__name__)
 
-    # FEED_URL = 'https://www.newstools.co.za/newstoolspider/index.php/dexter/articles/%s'
-    FEED_URL = 'http://newstools.co.za/dexter/articles/%s'
+    # FEED_URL = 'https://www.newstools.co.za/newstoolspider/index.php/dexter/articles/{}'
+    FEED_URL = 'http://newstools.co.za/dexter/articles/{}'
     FEED_USER = 'dexter'
     FEED_PASSWORD = None
 
@@ -77,14 +77,14 @@ class DocumentProcessor:
         try:
             self.crawl(doc)
         except HTTPError as e:
-            self.log.warn("Error fetching %s: %s" % (url, e), exc_info=e)
-            raise ProcessingError("Error fetching document %s: %s" % (url, e))
+            self.log.warn("Error fetching {}: {}".format(url, e), exc_info=e)
+            raise ProcessingError("Error fetching document {}: {}".format(url, e))
 
         try:
             self.process_document(doc)
         except HTTPError as e:
-            self.log.warn("Error processing %s: %s" % (url, e), exc_info=e)
-            raise ProcessingError("Error processing document %s: %s" % (url, e))
+            self.log.warn("Error processing {}: {}".format(url, e), exc_info=e)
+            raise ProcessingError("Error processing document {}: {}".format(url, e))
 
         return doc
 
@@ -131,7 +131,7 @@ class DocumentProcessor:
         tree = self.fetch_daily_feeds(day)
 
         items = tree.findall('channel/item')
-        self.log.info("Got %d items from feeds for %s" % (len(items), day))
+        self.log.info("Got {} items from feeds for {}".format(len(items), day))
 
         for item in items:
             # <item>
@@ -165,19 +165,19 @@ class DocumentProcessor:
         Returns the resulting document or None if the document already exists.
         """
         try:
-            self.log.info("Processing feed item: %s" % item)
+            self.log.info("Processing feed item: {}".format(item))
             url = item['url'] = self.canonicalise_url(item['url'])
             if not url:
-                self.log.info("URL could not be parsed, ignoring: %s" % url)
+                self.log.info("URL could not be parsed, ignoring: {}".format(url))
                 return None
 
             existing = Document.query.filter(Document.url == url).first()
             if existing:
-                self.log.info("URL has already been processed, ignoring: %s" % url)
+                self.log.info("URL has already been processed, ignoring: {}".format(url))
                 return None
 
             if not self.newstools_crawler.offer(url):
-                self.log.info("No medium for URL, ignoring: %s" % url)
+                self.log.info("No medium for URL, ignoring: {}".format(url))
                 return
 
             # this sets up basic info
@@ -186,13 +186,13 @@ class DocumentProcessor:
                 # get the raw details
                 self.crawl(doc)
             except HTTPError as e:
-                self.log.error("Error fetching document: %s" % e, exc_info=e)
-                raise ProcessingError("Error fetching document: %s" % (e,))
+                self.log.error("Error fetching document: {}".format(e), exc_info=e)
+                raise ProcessingError("Error fetching document: {}".format(e,))
 
             # is it sane?
             # TODO: this breaks for isolezwe and other non-english media
             if not doc.text or 'the' not in doc.text:
-                self.log.info("Document %s doesn't have reasonable-looking text, ignoring: %s..." % (url, doc.text[0:100]))
+                self.log.info("Document {} doesn't have reasonable-looking text, ignoring: {}...".format(url, doc.text[0:100]))
                 db.session.rollback()
                 return None
 
@@ -203,11 +203,11 @@ class DocumentProcessor:
             if doc.sources or doc.utterances:
                 db.session.add(doc)
                 db.session.commit()
-                self.log.info("Successfully processed feed item: %s as document %d" % (url, doc.id))
+                self.log.info("Successfully processed feed item: {} as document {}".format(url, doc.id))
                 return doc
             else:
                 db.session.rollback()
-                self.log.info("Document has no sources or utterances, ignoring: %s" % url)
+                self.log.info("Document has no sources or utterances, ignoring: {}".format(url))
                 return None
 
         except:
@@ -222,16 +222,16 @@ class DocumentProcessor:
         from htmlentitydefs import name2codepoint
 
         if self.FEED_PASSWORD is None:
-            raise ValueError("%s.FEED_PASSWORD must be set." % self.__class__.__name__)
+            raise ValueError("{}.FEED_PASSWORD must be set.".format(self.__class__.__name__))
 
-        # r = requests.get(self.FEED_URL % day.strftime('%d-%m-%Y'),
+        # r = requests.get(self.FEED_URL.format(day.strftime('%d-%m-%Y')),
         #                  auth=(self.FEED_USER, self.FEED_PASSWORD),
         #                  verify=False,
         #                  timeout=60)
 
         payload = {'PHP_AUTH_USER': self.FEED_USER, 'PHP_AUTH_PW': self.FEED_PASSWORD}
 
-        r = requests.get(self.FEED_URL % day.strftime('%d-%m-%Y'),
+        r = requests.get(self.FEED_URL.format(day.strftime('%d-%m-%Y')),
                          headers=payload,
                          verify=False,
                          timeout=60)
@@ -259,7 +259,7 @@ class DocumentProcessor:
         )  # noqa
 
         count = 0
-        self.log.info("Starting taxonomy backfill for %s documents" % len(doc_ids))
+        self.log.info("Starting taxonomy backfill for {} documents".format(len(doc_ids)))
 
         try:
             for doc_id in doc_ids:
@@ -273,23 +273,23 @@ class DocumentProcessor:
                 except HTTPError as e:
                     if 'requests per day' in e.response.text:
                         # we're done for the day
-                        self.log.info("Exceeded OpenCalais quota for the day, stopping: %s" % e.message)
+                        self.log.info("Exceeded OpenCalais quota for the day, stopping: {}".format(e.message))
                         break
 
                     elif e.response.status_code == 429:
                         # per-minute quota exceeded, try again later
-                        self.log.info("Temporary failure for %s: %s" % (doc, e.message))
+                        self.log.info("Temporary failure for {}: {}".format(doc, e.message))
                         time.sleep(60)
 
                     else:
-                        self.log.info("Error backfilling for %s: %s" % (doc, e.message), exc_info=e)
+                        self.log.info("Error backfilling for {}: {}".format(doc, e.message), exc_info=e)
 
         finally:
-            self.log.info("Backfilled %d documents" % count)
+            self.log.info("Backfilled {} documents".format(count))
 
     def backfill_taxonomies_for_document(self, doc):
         from dexter.app import app
-        self.log.info("Backfilling taxonomies for %s" % doc)
+        self.log.info("Backfilling taxonomies for {}".format(doc))
 
         cx = CalaisExtractor()
         cx.API_KEY = app.config['CALAIS_API_KEY2']
@@ -302,8 +302,8 @@ class DocumentProcessor:
 class DocumentProcessorNT:
     log = logging.getLogger(__name__)
 
-    FEED_URL = 'http://newstools.co.za/dexter/articles/%s'
-    FEED_FILTER_URL = 'http://newstools.co.za/dexter/articles/%s?%s'
+    FEED_URL = 'http://newstools.co.za/dexter/articles/{}'
+    FEED_FILTER_URL = 'http://newstools.co.za/dexter/articles/{}?{}'
     FEED_USER = 'dexter'
     FEED_PASSWORD = None
 
@@ -353,14 +353,14 @@ class DocumentProcessorNT:
         try:
             self.crawl(doc)
         except HTTPError as e:
-            self.log.warn("Error fetching %s: %s" % (url, e), exc_info=e)
-            raise ProcessingError("Error fetching document %s: %s" % (url, e))
+            self.log.warn("Error fetching {}: {}".format(url, e), exc_info=e)
+            raise ProcessingError("Error fetching document {}: {}".format(url, e))
 
         try:
             self.process_document(doc)
         except HTTPError as e:
-            self.log.warn("Error processing %s: %s" % (url, e), exc_info=e)
-            raise ProcessingError("Error processing document %s: %s" % (url, e))
+            self.log.warn("Error processing {}: {}".format(url, e), exc_info=e)
+            raise ProcessingError("Error processing document {}: {}".format(url, e))
 
         return doc
 
@@ -413,7 +413,7 @@ class DocumentProcessorNT:
         tree = self.fetch_daily_feeds(day)
 
         items = tree.findall('channel/item')
-        self.log.info("Got %d items from feeds for %s" % (len(items), day))
+        self.log.info("Got {} items from feeds for {}".format(len(items), day))
 
         for item in items:
             # <item>
@@ -442,7 +442,7 @@ class DocumentProcessorNT:
         tree = self.fetch_filtered_daily_feeds(day, filter_parm)
 
         items = tree.findall('channel/item')
-        self.log.info("Got %d items from feeds for %s" % (len(items), day))
+        self.log.info("Got {} items from feeds for {}".format(len(items), day))
 
         for item in items:
             # <item>
@@ -476,39 +476,39 @@ class DocumentProcessorNT:
         Returns the resulting document or None if the document already exists.
         """
         try:
-            self.log.info("Processing feed item: %s" % item)
+            self.log.info("Processing feed item: {}".format(item))
             url = item['url'] = self.canonicalise_url(item['url'])
             if not url:
-                self.log.info("URL could not be parsed, ignoring: %s" % url)
+                self.log.info("URL could not be parsed, ignoring: {}".format(url))
                 return None
 
             existing = Document.query.filter(Document.url == url).first()
             if existing:
-                self.log.info("URL has already been processed, ignoring: %s" % url)
+                self.log.info("URL has already been processed, ignoring: {}".format(url))
                 return None
 
             if not self.newstools_crawler.offer(url):
-                self.log.info("No medium for URL, ignoring: %s" % url)
+                self.log.info("No medium for URL, ignoring: {}".format(url))
                 return
 
             # this sets up basic info
             try:
                 doc = self.newstools_crawler.crawl(item)
             except Exception as e:
-                self.log.error("Error fetching document: %s" % e, exc_info=e)
-                raise ProcessingError("Error fetching document: %s" % (e,))
+                self.log.error("Error fetching document: {}".format(e), exc_info=e)
+                raise ProcessingError("Error fetching document: {}".format(e,))
 
             # try:
             #     # get the raw details
             #     self.crawl(doc)
             # except HTTPError as e:
-            #     self.log.error("Error fetching document: %s" % e, exc_info=e)
-            #     raise ProcessingError("Error fetching document: %s" % (e,))
+            #     self.log.error("Error fetching document: {}".format(e), exc_info=e)
+            #     raise ProcessingError("Error fetching document: {}".format(e,))
 
             # is it sane?
             # TODO: this breaks for isolezwe and other non-english media
             if not doc.text or 'the' not in doc.text:
-                self.log.info("Document %s doesn't have reasonable-looking text, ignoring: %s..." % (url, doc.text[0:100]))
+                self.log.info("Document {} doesn't have reasonable-looking text, ignoring: {}...".format(url, doc.text[0:100]))
                 db.session.rollback()
                 return None
 
@@ -519,11 +519,11 @@ class DocumentProcessorNT:
             if doc.sources or doc.utterances:
                 db.session.add(doc)
                 db.session.commit()
-                self.log.info("Successfully processed feed item: %s as document %d" % (url, doc.id))
+                self.log.info("Successfully processed feed item: {} as document {}".format(url, doc.id))
                 return doc
             else:
                 db.session.rollback()
-                self.log.info("Document has no sources or utterances, ignoring: %s" % url)
+                self.log.info("Document has no sources or utterances, ignoring: {}".format(url))
                 return None
 
         except:
@@ -538,9 +538,9 @@ class DocumentProcessorNT:
         from htmlentitydefs import name2codepoint
 
         if self.FEED_PASSWORD is None:
-            raise ValueError("%s.FEED_PASSWORD must be set." % self.__class__.__name__)
+            raise ValueError("{}.FEED_PASSWORD must be set.".format(self.__class__.__name__))
 
-        r = requests.get(self.FEED_FILTER_URL % (day.strftime('%d-%m-%Y'), filter_parm),
+        r = requests.get(self.FEED_FILTER_URL.format(day.strftime('%d-%m-%Y'), filter_parm),
                          auth=(self.FEED_USER, self.FEED_PASSWORD),
                          verify=False,
                          timeout=60)
@@ -562,9 +562,9 @@ class DocumentProcessorNT:
         from htmlentitydefs import name2codepoint
 
         if self.FEED_PASSWORD is None:
-            raise ValueError("%s.FEED_PASSWORD must be set." % self.__class__.__name__)
+            raise ValueError("{}.FEED_PASSWORD must be set.".format(self.__class__.__name__))
 
-        r = requests.get(self.FEED_URL % day.strftime('%d-%m-%Y'),
+        r = requests.get(self.FEED_URL.format(day.strftime('%d-%m-%Y')),
                          auth=(self.FEED_USER, self.FEED_PASSWORD),
                          verify=False,
                          timeout=60)
@@ -592,7 +592,7 @@ class DocumentProcessorNT:
         )  # noqa
 
         count = 0
-        self.log.info("Starting taxonomy backfill for %s documents" % len(doc_ids))
+        self.log.info("Starting taxonomy backfill for {} documents".format(len(doc_ids)))
 
         try:
             for doc_id in doc_ids:
@@ -606,23 +606,23 @@ class DocumentProcessorNT:
                 except HTTPError as e:
                     if 'requests per day' in e.response.text:
                         # we're done for the day
-                        self.log.info("Exceeded OpenCalais quota for the day, stopping: %s" % e.message)
+                        self.log.info("Exceeded OpenCalais quota for the day, stopping: {}".format(e.message))
                         break
 
                     elif e.response.status_code == 429:
                         # per-minute quota exceeded, try again later
-                        self.log.info("Temporary failure for %s: %s" % (doc, e.message))
+                        self.log.info("Temporary failure for {}: {}".format(doc, e.message))
                         time.sleep(60)
 
                     else:
-                        self.log.info("Error backfilling for %s: %s" % (doc, e.message), exc_info=e)
+                        self.log.info("Error backfilling for {}: {}".format(doc, e.message), exc_info=e)
 
         finally:
-            self.log.info("Backfilled %d documents" % count)
+            self.log.info("Backfilled {} documents".format(count))
 
     def backfill_taxonomies_for_document(self, doc):
         from dexter.app import app
-        self.log.info("Backfilling taxonomies for %s" % doc)
+        self.log.info("Backfilling taxonomies for {}".format(doc))
 
         cx = CalaisExtractor()
         cx.API_KEY = app.config['CALAIS_API_KEY2']

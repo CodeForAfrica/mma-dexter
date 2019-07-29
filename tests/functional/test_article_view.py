@@ -27,5 +27,5 @@ class TestArticleView(UserSessionTestCase):
         self.db.session.add(df)
         self.db.session.commit()
 
-        res = self.client.get('/articles/%d' % d.id)
+        res = self.client.get('/articles/{}'.format(d.id))
         self.assert200(res)

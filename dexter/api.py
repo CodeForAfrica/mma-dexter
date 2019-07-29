@@ -254,7 +254,7 @@ def api_feed_bias():
 
     documents = query.all()
 
-    log.info("Loaded %d docs" % len(documents))
+    log.info("Loaded {} docs".format(len(documents)))
 
     scores = calc.calculate_bias_scores(documents, key=lambda d: (d.medium.group_name(), d.medium.medium_type))
 
@@ -281,19 +281,19 @@ def api_feed_metadata():
 
     media = Medium.query.all()
     data['media'] = {
-        "bias_feed_url": "%s" % urlparse.urljoin(request.url_root, url_for('api_feed_bias')),
+        "bias_feed_url": "{}".format(urlparse.urljoin(request.url_root, url_for('api_feed_bias'))),
         "names": [m.name for m in media],
         "groups": list(set(m.group_name() for m in media)),
     }
 
     data['origins'] = {
         "names": [x.name for x in Location.query.all()],
-        "feed_url": "%s" % urlparse.urljoin(request.url_root, url_for('api_feed_origins')),
+        "feed_url": "{}".format(urlparse.urljoin(request.url_root, url_for('api_feed_origins'))),
     }
 
     data['topics'] = {
         "names": [x.name for x in Topic.query.all()],
-        "feed_url": "%s" % urlparse.urljoin(request.url_root, url_for('api_feed_topics')),
+        "feed_url": "{}".format(urlparse.urljoin(request.url_root, url_for('api_feed_topics'))),
     }
 
     data['affiliations'] = {
@@ -302,7 +302,7 @@ def api_feed_metadata():
 
     data['political-parties'] = {
         "names": [x.name for x in Affiliation.query.filter(Affiliation.code.like("4.%")).all()],
-        "feed_url": "%s" % urlparse.urljoin(request.url_root, url_for('api_feed_parties')),
+        "feed_url": "{}".format(urlparse.urljoin(request.url_root, url_for('api_feed_parties'))),
     }
 
     return jsonify({"metadata": data})

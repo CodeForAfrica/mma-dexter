@@ -160,7 +160,7 @@ class DocumentSource(db.Model, WithOffsets):
     def offset_list(self):
         """ String of offset:length pairs of places in this document the entity
         is mentioned or quoted, may be empty. """
-        offsets = ['%d:%d' % (u.offset, u.length) for u in self.utterances() if u.offset]
+        offsets = ['{}:{}'.format(u.offset, u.length) for u in self.utterances() if u.offset]
         for de in self.document_entities():
             if de.offset_list:
                 offsets.append(de.offset_list)
@@ -200,8 +200,7 @@ class DocumentSource(db.Model, WithOffsets):
 
 
     def __repr__(self):
-        return "<DocumentSource %s, person=%s, unnamed=%s, name=%s, doc=%s>" % \
-                (self.source_type, self.person, self.unnamed, self.name and self.name.encode('utf-8'), self.document)
+        return "<DocumentSource {}, person={}, unnamed={}, name={}, doc={}>".format(self.source_type, self.person, self.unnamed, self.name and self.name.encode('utf-8'), self.document)
 
 
 class SourceFunction(db.Model):
@@ -214,7 +213,7 @@ class SourceFunction(db.Model):
     name      = Column(String(50), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<SourceFunction name='%s'>" % (self.name)
+        return "<SourceFunction name='{}'>".format(self.name)
 
   
     @classmethod

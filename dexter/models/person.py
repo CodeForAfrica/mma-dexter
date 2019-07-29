@@ -137,7 +137,7 @@ class Person(db.Model):
             .order_by(Document.published_at)\
             .all()  # noqa
 
-        self.log.debug("Relearning affiliations from %d occurrences since %s" % (len(sources), days_ago))
+        self.log.debug("Relearning affiliations from {} occurrences since {}".format(len(sources), days_ago))
 
         weights = {}
 
@@ -157,13 +157,13 @@ class Person(db.Model):
                 weights.get(source.affiliation, 0) + \
                 weight(source.document.published_at)
 
-        self.log.debug("Affiliation weights for %s: %s" % (self, weights))
+        self.log.debug("Affiliation weights for {}: {}".format(self, weights))
 
         if weights:
             affiliation, _ = max(weights.items(), key=lambda pair: pair[1])
 
             if affiliation != self.affiliation:
-                self.log.info("Learned new affiliation for %s: was=%s, now=%s" % (self, self.affiliation, affiliation))
+                self.log.info("Learned new affiliation for {}: was={}, now={}".format(self, self.affiliation, affiliation))
                 self.affiliation = affiliation
                 return True
 
@@ -197,7 +197,7 @@ class Person(db.Model):
         e = Entity.get_or_create('person', self.name)
         e.person = dest
 
-        self.log.info("Merged %s into %s" % (self, dest))
+        self.log.info("Merged {} into {}".format(self, dest))
 
         db.session.delete(self)
 
@@ -219,12 +219,12 @@ class Person(db.Model):
 
             if 'he' in mentions or 'his' in mentions:
                 self.gender = Gender.male()
-                self.log.info("Learnt gender for %s" % self)
+                self.log.info("Learnt gender for {}".format(self))
                 return
 
             elif 'she' in mentions or 'her' in mentions:
                 self.gender = Gender.female()
-                self.log.info("Learnt gender for %s" % self)
+                self.log.info("Learnt gender for {}".format(self))
                 return
 
     def reset_all_affiliations(self):
@@ -238,7 +238,7 @@ class Person(db.Model):
             .update({'affiliation_id': self.affiliation_id})
 
     def __repr__(self):
-        return "<Person id=%s, name=\"%s\">" % (self.id, self.name.encode('utf-8'))
+        return "<Person id={}, name=\"{}\">".format(self.id, self.name.encode('utf-8'))
 
     @classmethod
     def get_or_create(cls, name, gender=None, race=None):
@@ -292,7 +292,7 @@ class Gender(db.Model):
     name      = Column(String(150), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Gender name='%s'>" % (self.name)
+        return "<Gender name='{}'>".format(self.name)
 
     def abbr(self):
         return self.name[0:2].title()
@@ -332,7 +332,7 @@ class Race(db.Model):
     name      = Column(String(50), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Race name='%s'>" % (self.name)
+        return "<Race name='{}'>".format(self.name)
 
     def abbr(self):
         return self.name[0:2].title()

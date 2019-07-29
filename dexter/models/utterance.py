@@ -66,7 +66,7 @@ class Utterance(db.Model):
             end = max(quote_end, self.document.text.rfind(' ', quote_end, end))
 
         if mark:
-            snippet = '%s<mark>%s</mark>%s' % (
+            snippet = '{}<mark>{}</mark>{}'.format(
                     self.document.text[start:self.offset],
                     self.document.text[self.offset:quote_end],
                     self.document.text[quote_end:end]
@@ -89,5 +89,5 @@ class Utterance(db.Model):
                 (unidecode(other.quote).lower() == unidecode(self.quote).lower() or self.similarity(other) >= 0.8)
 
     def __repr__(self):
-        return "<Utterance doc=%s, entity=%s, quote=\"%s\">" % (
+        return "<Utterance doc={}, entity={}, quote=\"{}\">".format(
                 self.document, self.entity, (self.quote or "").encode('utf-8')[0:15] + "...")

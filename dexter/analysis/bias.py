@@ -67,7 +67,7 @@ class BiasCalculator:
         to counts by affiliation. """
         counts = defaultdict(lambda: defaultdict(int))
 
-        self.log.debug("Counting sources for %d docs" % len(docs))
+        self.log.debug("Counting sources for {} docs".format(len(docs)))
 
         for doc in docs:
             for source in doc.sources:

@@ -16,7 +16,7 @@ class TestEditArticleAnalysis(UserSessionTestCase):
         self.login()
   
     def test_edit_article_analysis(self):
-        res = self.client.get('/articles/%s/analysis' % self.fx.DocumentData.simple.id)
+        res = self.client.get('/articles/{}/analysis'.format(self.fx.DocumentData.simple.id))
         self.assert200(res)
 
         # check that no issues have been selected yet
@@ -29,7 +29,7 @@ class TestEditArticleAnalysis(UserSessionTestCase):
         f.fields['issues'] = ['2', ]
 
         res = f.submit(self.client)
-        self.assertRedirects(res, '/articles/%s/analysis' % self.fx.DocumentData.simple.id)
+        self.assertRedirects(res, '/articles/{}/analysis'.format(self.fx.DocumentData.simple.id))
 
         # check that an issue has been selected
         doc = Document.query.get(self.fx.DocumentData.simple.id)

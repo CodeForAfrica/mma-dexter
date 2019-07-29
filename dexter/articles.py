@@ -104,7 +104,7 @@ def delete_article(id):
         flash("You're not allowed to delete this article.", 'error')
         return redirect(url_for('show_article', id=id))
 
-    log.info("Document deleted by %s: %s" % (current_user, document))
+    log.info("Document deleted by {}: {}".format(current_user, document))
     db.session.delete(document)
     db.session.commit()
     flash('The document has been deleted.', 'info')
@@ -143,8 +143,8 @@ def new_article():
                         doc = proc.process_url(url)
                         doc.analysis_nature_id = form.analysis_nature_id.data
                     except ProcessingError as e:
-                        log.error("Error processing %s: %s" % (url, e), exc_info=e)
-                        flash("Something went wrong processing the document: %s" % (e,), 'error')
+                        log.error("Error processing {}: {}".format(url, e), exc_info=e)
+                        flash("Something went wrong processing the document: {}".format(e,), 'error')
         else:
             # new document from article text
             if author_form.validate():
@@ -161,8 +161,8 @@ def new_article():
                     try:
                         proc.process_document(doc)
                     except ProcessingError as e:
-                        log.error("Error processing raw document: %s" % (e,), exc_info=e)
-                        flash("Something went wrong processing the document: %s" % (e,), 'error')
+                        log.error("Error processing raw document: {}".format(e,), exc_info=e)
+                        flash("Something went wrong processing the document: {}".format(e,), 'error')
                         doc = None
 
         if doc:
@@ -178,7 +178,7 @@ def new_article():
             db.session.add(doc)
             db.session.flush()
             id = doc.id
-            log.info("Document added by %s: %s" % (current_user, doc))
+            log.info("Document added by {}: {}".format(current_user, doc))
             db.session.commit()
             flash('Article added.')
             return redirect(url_for('edit_article_analysis', id=id))
@@ -299,7 +299,7 @@ def edit_article_analysis(id):
 
     fairness_forms = []
     for fairness in document.fairness:
-        f = DocumentFairnessForm(prefix='fairness[%d]' % fairness.id, obj=fairness)
+        f = DocumentFairnessForm(prefix='fairness[{}]'.format(fairness.id), obj=fairness)
         f.document_fairness = fairness
         fairness_forms.append(f)
 
@@ -316,7 +316,7 @@ def edit_article_analysis(id):
                 if current_user.is_authenticated and not document.checked_by:
                     document.checked_by = current_user
 
-                log.info("Updated analysis by %s for %s" % (current_user, document))
+                log.info("Updated analysis by {} for {}".format(current_user, document))
                 db.session.commit()
 
                 flash('Analysis updated.')
@@ -362,7 +362,7 @@ def edit_article_analysis(id):
                 if current_user.is_authenticated and not document.checked_by:
                     document.checked_by = current_user
 
-                log.info("Updated analysis by %s for %s" % (current_user, document))
+                log.info("Updated analysis by {} for {}".format(current_user, document))
 
                 db.session.commit()
 
@@ -516,7 +516,7 @@ def create_article_attachment():
             try:
                 attachment = DocumentAttachment.from_upload(upload, current_user)
             except WandError as e:
-                log.warn("Couldn't process attachment: %s, %s: %s" % (upload.mimetype, upload.filename, e.message),
+                log.warn("Couldn't process attachment: {}, {}: {}".format(upload.mimetype, upload.filename, e.message),
                          exc_info=e)
                 raise ValueError('Only image and PDF attachments are supported')
 

@@ -32,7 +32,7 @@ class Country(db.Model):
         return self.name
 
     def __repr__(self):
-        return "<Country code=%s>" % (self.code,)
+        return "<Country code={}>".format(self.code,)
 
     @classmethod
     def all(cls):

@@ -44,7 +44,7 @@ class Cluster(db.Model):
         return len(self.members)
 
     def __repr__(self):
-        return "<Cluster id=%s, %d docs, fingerprint=%s>" % (self.id, len(self), self.fingerprint,)
+        return "<Cluster id={}, {} docs, fingerprint={}>".format(self.id, len(self), self.fingerprint)
 
     @classmethod
     def make_fingerprint(cls, doc_ids):
@@ -84,4 +84,4 @@ class ClusteredDocument(db.Model):
     document   = relationship("Document", backref=backref('clusters', cascade='all, delete-orphan'), lazy=False)
 
     def __repr__(self):
-        return "<ClusteredDocument id=%s, cluster=%s, document=%s>" % (self.id, self.cluster, self.document,)
+        return "<ClusteredDocument id={}, cluster={}, document={}>".format(self.id, self.cluster, self.document,)

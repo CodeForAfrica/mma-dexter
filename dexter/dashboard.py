@@ -104,7 +104,7 @@ def activity():
         excel = XLSXExportBuilder(form).build()
 
         response = make_response(excel)
-        response.headers["Content-Disposition"] = "attachment; filename=%s" % form.filename()
+        response.headers["Content-Disposition"] = "attachment; filename={}".format(form.filename())
         response.headers["Content-Type"] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         return response
 
@@ -113,7 +113,7 @@ def activity():
         excel = ChildrenRatingExport(form.document_ids()).build()
 
         response = make_response(excel)
-        response.headers["Content-Disposition"] = "attachment; filename=%s" % form.filename()
+        response.headers["Content-Disposition"] = "attachment; filename={}".format(form.filename())
         response.headers["Content-Type"] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         return response
 
@@ -122,7 +122,7 @@ def activity():
         excel = MediaDiversityRatingExport(form.document_ids()).build()
 
         response = make_response(excel)
-        response.headers["Content-Disposition"] = "attachment; filename=%s" % form.filename()
+        response.headers["Content-Disposition"] = "attachment; filename={}".format(form.filename())
         response.headers["Content-Type"] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         return response
 
@@ -457,7 +457,7 @@ class ActivityForm(Form):
         else:
             ext = self.format.data
 
-        return "%s.%s" % ('-'.join(filename), ext)
+        return "{}.{}".format('-'.join(filename), ext)
 
 
 class ActivityChartHelper:

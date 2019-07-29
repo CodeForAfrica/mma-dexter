@@ -16,7 +16,7 @@ class AlchemyExtractor(BaseExtractor):
     def __init__(self):
         # NOTE: set the ENV variable ALCHEMY_API_KEY before running the process
         if not self.API_KEY:
-            raise ValueError('%s.%s.API_KEY must be defined.' % (self.__module__, self.__class__.__name__))
+            raise ValueError('{}.{}.API_KEY must be defined.'.format(self.__module__, self.__class__.__name__))
         self.alchemy = AlchemyAPI(self.API_KEY)
 
     def extract(self, doc):
@@ -27,16 +27,16 @@ class AlchemyExtractor(BaseExtractor):
                 # self.fetch_extract_taxonomy(doc)
             except ProcessingError as e:
                 if e.message == 'unsupported-text-language':
-                    log.info('Ignoring processing error: %s' % e.message)
+                    log.info('Ignoring processing error: {}'.format(e.message))
                 else:
                     raise e
 
     def fetch_extract_entities(self, doc):
-        log.info("Extracting entities for %s" % doc)
+        log.info("Extracting entities for {}".format(doc))
         self.extract_entities(doc, self.fetch_entities(doc) or [])
 
     def extract_entities(self, doc, entities):
-        log.debug("Raw extracted entities: %s" % entities)
+        log.debug("Raw extracted entities: {}".format(entities))
 
         entities_added = 0
         utterances_added = 0
@@ -80,21 +80,21 @@ class AlchemyExtractor(BaseExtractor):
                 if doc.add_utterance(u):
                     utterances_added += 1
 
-        log.info("Added %d entities and %d utterances for %s" % (entities_added, utterances_added, doc))
+        log.info("Added {} entities and {} utterances for {}".format(entities_added, utterances_added, doc))
 
     def fetch_extract_keywords(self, doc):
-        log.info("Extracting keywords for %s" % doc)
+        log.info("Extracting keywords for {}".format(doc))
         self.extract_keywords(doc, self.fetch_keywords(doc) or [])
 
     def fetch_extract_taxonomy(self, doc):
-        log.info("Extracting taxonomy for %s" % doc)
+        log.info("Extracting taxonomy for {}".format(doc))
         self.extract_taxonomy(doc, self.fetch_taxonomy(doc) or [])
 
     def extract_keywords(self, doc, keywords):
         entity_names = set(de.entity.name for de in doc.entities)
         keywords_added = 0
 
-        log.debug("Raw extracted keywords: %s" % keywords)
+        log.debug("Raw extracted keywords: {}".format(keywords))
 
         for kw in keywords:
             # skip keywords that are entity names
@@ -109,12 +109,12 @@ class AlchemyExtractor(BaseExtractor):
             if doc.add_keyword(k):
                 keywords_added += 1
 
-        log.info("Added %d keywords for %s" % (keywords_added, doc))
+        log.info("Added {} keywords for {}".format(keywords_added, doc))
 
     def extract_taxonomy(self, doc, taxonomy):
         added = 0
 
-        log.debug("Raw extracted taxonomy: %s" % taxonomy)
+        log.debug("Raw extracted taxonomy: {}".format(taxonomy))
 
         # If we have good taxonomies, skip those that alchemyapi isn't
         # confident about, they're generally bad. If we only have unconfident
@@ -132,9 +132,9 @@ class AlchemyExtractor(BaseExtractor):
             added += 1
 
         if added == 0:
-            log.info("No taxonomies were useful, we tried: %s" % taxonomy)
+            log.info("No taxonomies were useful, we tried: {}".format(taxonomy))
 
-        log.info("Added %d taxonomy for %s" % (added, doc))
+        log.info("Added {} taxonomy for {}".format(added, doc))
 
     def fetch_entities(self, doc):
         res = self.alchemy.entities('text', doc.text.encode('utf-8'), {
@@ -173,4 +173,4 @@ class AlchemyExtractor(BaseExtractor):
             offsets.append((start, needle_len))
             start += needle_len
 
-        return ' '.join('%d:%d' % p for p in offsets[:100])
+        return ' '.join('{}:{}'.format(p, p) for p in offsets[:100])

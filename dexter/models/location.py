@@ -26,7 +26,7 @@ class Location(db.Model):
     country     = relationship("Country")
 
     def __repr__(self):
-        return "<Location id=%s, name=\"%s\">" % (self.id, self.name.encode('utf-8'))
+        return "<Location id={}, name=\"{}\">".format(self.id, self.name.encode('utf-8'))
 
 
     @classmethod

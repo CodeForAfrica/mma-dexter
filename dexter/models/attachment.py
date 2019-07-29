@@ -76,7 +76,7 @@ class DocumentAttachment(db.Model):
                 db.session.flush()
 
             # save pdf to s3
-            filename = '%d/%s' % (self.id, self.filename)
+            filename = '{}/{}'.format(self.id, self.filename)
             current_store.put_file(data, 'document-attachment', filename, 0, 0, self.mimetype, False)
             data.seek(0)
 
@@ -105,19 +105,19 @@ class DocumentAttachment(db.Model):
     @property
     def download_url(self):
         if self.mimetype == PDF:
-            filename = '%d/%s' % (self.id, self.filename)
+            filename = '{}/{}'.format(self.id, self.filename)
             return current_store.get_url('document-attachment', filename, 0, 0, self.mimetype)
 
         return self.image.original.locate()
 
 
     def size_str(self):
-        return '%d,%d' % self.image.original.size
+        return '{},{}'.format(self.image.original.size, self.image.original.size)
 
 
     def delete_file(self):
         if self.mimetype == PDF:
-            filename = '%d/%s' % (self.id, self.filename)
+            filename = '{}/{}'.format(self.id, self.filename)
             return current_store.delete_file('document-attachment', filename, 0, 0, self.mimetype)
 
 

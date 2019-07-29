@@ -19,10 +19,10 @@ if sys.argv[0].endswith('nosetests'):
     env = 'test'
 
 app.config['ENV'] = env
-app.config.from_pyfile('config/%s.cfg' % env)
+app.config.from_pyfile('config/{}.cfg'.format(env))
 
 # setup logging
-with open('%s/config/%s-logging.yaml' % (app.root_path, env)) as f:
+with open('{}/config/{}-logging.yaml'.format(app.root_path, env)) as f:
     import yaml
     logging.config.dictConfig(yaml.load(f, Loader=yaml.FullLoader))
 

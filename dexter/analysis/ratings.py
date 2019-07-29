@@ -251,10 +251,10 @@ class ChildrenRatingExport:
 
         # male / female ratio
         male, female = self.score_row['Male'], self.score_row['Female']
-        formula = '=IF({col}%s>0,{col}%s/{col}%s,0)' % (male + 1, female + 1, male + 1)
+        formula = '=IF({{col}}{}>0,{{col}}{}/{{col}}{},0)'.format(male + 1, female + 1, male + 1)
         self.write_formula_score_row('Quoted Boys to girls', formula, row)
         row = row + 1
-        formula = '=IF({col}%s>1,1/{col}%s,{col}%s)' % (row, row, row)
+        formula = '=IF({{col}}{}>1,1/{{col}}{},{{col}}{})'.format(row, row, row)
         self.write_formula_score_row('Quoted Gender Ratio', formula, row)
         row = row + 2
 
@@ -284,10 +284,10 @@ class ChildrenRatingExport:
 
         # male / female ratio
         male, female = self.score_row['Male'], self.score_row['Female']
-        formula = '=IF({col}%s>0,{col}%s/{col}%s,0)' % (male + 1, female + 1, male + 1)
+        formula = '=IF({{col}}{}>0,{{col}}{}/{{col}}{},0)'.format(male + 1, female + 1, male + 1)
         self.write_formula_score_row('Boys to girls', formula, row)
         row = row + 1
-        formula = '=IF({col}%s>1,1/{col}%s,{col}%s)' % (row, row, row)
+        formula = '=IF({{col}}{}>1,1/{{col}}{},{{col}}{})'.format(row, row, row)
         self.write_formula_score_row('Gender Ratio', formula, row)
         row = row + 1
 
@@ -411,7 +411,7 @@ class ChildrenRatingExport:
             ).all()
 
             row = self.write_score_table(roles, rows, row) + 1
-            formula = '=SUM({col}%s:{col}%s)' % (row - len(roles), row - 1)
+            formula = '=SUM({{col}}{}:{{col}}{})'.format(row - len(roles), row - 1)
             self.write_formula_score_row('Total ' + title, formula, row)
             row += 1
             # percent of all child sources
@@ -439,18 +439,18 @@ class ChildrenRatingExport:
                 ).all()
 
                 row = self.write_score_table(roles, rows, row) + 1
-                formula = '=SUM({col}%s:{col}%s)' % (row - len(roles), row - 1)
-                self.write_formula_score_row('Total %s %s' % (gender, title), formula, row)
+                formula = '=SUM({{col}}{}:{{col}}{})'.format(row - len(roles), row - 1)
+                self.write_formula_score_row('Total {} {}'.format(gender, title), formula, row)
                 score_rows.append(row)
                 row += 2
 
             # now do the ratio between the two
             male, female = score_rows
-            formula = '=IF({col}%s>0,{col}%s/{col}%s,0)' % (male + 1, female + 1, male + 1)
-            self.write_formula_score_row('Gender ratio %s' % title, formula, row)
+            formula = '=IF({{col}}{}>0,{{col}}{}/{{col}}{},0)'.format(male + 1, female + 1, male + 1)
+            self.write_formula_score_row('Gender ratio {}'.format(title, formula, row))
             row += 1
-            formula = '=IF({col}%s>1,1/{col}%s,{col}%s)' % (row, row, row)
-            self.write_formula_score_row('Gender score %s' % title, formula, row)
+            formula = '=IF({{col}}{}>1,1/{{col}}{},{{col}}{})'.format(row, row, row)
+            self.write_formula_score_row('Gender score {}'.format(title, formula, row))
             row += 1
 
         return row
@@ -563,7 +563,7 @@ class ChildrenRatingExport:
 
         row = self.write_score_table(types, rows, row) + 1
 
-        formula = '=SUM({col}%s:{col}%s)' % (row - len(types), row - 1)
+        formula = '=SUM({{col}}{}:{{col}}{})'.format(row - len(types), row - 1)
         self.write_formula_score_row('Focus types', formula, row)
         row += 1
         self.write_percent_row('Focus types', self.score_row['Total articles'], row - 1, row)
@@ -596,7 +596,7 @@ class ChildrenRatingExport:
         row = self.write_score_table(origins, rows, row) + 1
 
         starting_row = row
-        formula = '=SUM({col}%s:{col}%s)' % (row - len(origins), row - 1)
+        formula = '=SUM({{col}}{}:{{col}}{})'.format(row - len(origins), row - 1)
         self.write_formula_score_row('Focus origins', formula, row)
         row += 1
         self.write_percent_row('Focus origins', self.score_row['Total articles'], starting_row, row)
@@ -653,7 +653,7 @@ class ChildrenRatingExport:
     def write_percent_table(self, names, denom_row, starting_row, row):
         """ Write a table of percentages. +denom_row+ is the row of
         the denominator, +starting_row+ is the first row of numerators. """
-        formula = lambda r, c: '=IF({col}{denom}>0,{col}{row}/{col}{denom},0)'.format(denom=denom_row + 1, row=r - row + starting_row, col=c)
+        formula = lambda r, c: '=IF({{col}}{{denom}}>0,{{col}}{{row}}/{{col}}{{denom}},0)'.format(denom=denom_row + 1, row=r - row + starting_row, col=c)
         names = ['Percent ' + n for n in names]
         return self.write_formula_table(names, formula, row)
 
@@ -678,11 +678,11 @@ class ChildrenRatingExport:
         row += 1
 
         total_row = self.score_row['Total child sources']
-        formula = '=IF({col}%s>0,{col}%s/{col}%s,0)' % (total_row + 1, row, total_row + 1)
+        formula = '=IF({{col}}{}>0,{{col}}{}/{{col}}{},0)'.format(total_row + 1, row, total_row + 1)
         self.write_formula_score_row('Percent Abused sources', formula, row)
         row += 1
 
-        formula = '=1-{col}%s' % row
+        formula = '=1-{{col}}{}'.format(row)
         self.write_formula_score_row('Percent Non-abused sources', formula, row)
 
         return row
@@ -706,7 +706,7 @@ class ChildrenRatingExport:
         row = self.write_score_table(names, rows, row) + 1
 
         # count of docs with any supported principle
-        formula = '=SUM({col}%s:{col}%s)' % (row - len(principles), row - 1)
+        formula = '=SUM({{col}}{}:{{col}}{})'.format(row - len(principles), row - 1)
         self.write_formula_score_row('Rights respected', formula, row)
         row += 1
 
@@ -716,7 +716,7 @@ class ChildrenRatingExport:
         row = row + 2
 
         # percent of documents with each right violated
-        formula = lambda r, c: '=IF({col}{tot}>0,{col}{row}/{col}{tot},0)'.format(tot=total_row + 1, row=r - len(names) - 4, col=c)
+        formula = lambda r, c: '=IF({{col}}{{tot}}>0,{{col}}{{row}}/{{col}}{{tot}},0)'.format(tot=total_row + 1, row=r - len(names) - 4, col=c)
         names = ['Percent ' + n for n in names]
         row = self.write_formula_table(names, formula, row) + 1
 
@@ -735,12 +735,12 @@ class ChildrenRatingExport:
         row = self.write_score_table(names, rows, row)
 
         # count of docs with any violated principle
-        formula = '=SUM({col}%s:{col}%s)' % (row - len(principles) + 1, row)
+        formula = '=SUM({{col}}{}:{{col}}{})'.format(row - len(principles) + 1, row)
         self.write_formula_score_row('Principles violated', formula, row)
         row += 1
         self.write_percent_row('Principles violated', total_row, row - 1, row)
         row += 1
-        self.write_formula_score_row('Inv. Percent Principles violated', '=1-{col}%s' % row, row)
+        self.write_formula_score_row('Inv. Percent Principles violated', '=1-{{col}}{}'.formatrow, row)
 
         return row
 
@@ -834,10 +834,10 @@ class ChildrenRatingExport:
 
                 # now set this rating's score to the product of the children
                 col_name = xl_col_to_name(col + 1)
-                for i in xrange(self.n_columns):
+                for i in range(self.n_columns):
                     rating_col_name = xl_col_to_name(self.rating_col(i))
                     # weight * score
-                    formula = '+'.join('%s%s*%s%s' % (col_name, r + 1, rating_col_name, r + 1) for r in rows)
+                    formula = '+'.join('{}{}*{}{}'.format(col_name, r + 1, rating_col_name, r + 1) for r in rows)
                     self.rating_ws.write_formula(row, self.rating_col(i), formula)
 
                 row = last_row
@@ -845,9 +845,9 @@ class ChildrenRatingExport:
                 # actual rating
                 score_row = self.score_row[rating]
 
-                for i in xrange(self.n_columns):
+                for i in range(self.n_columns):
                     cell = xl_rowcol_to_cell(score_row, self.score_col(i), row_abs=True, col_abs=True)
-                    self.rating_ws.write(row, self.rating_col(i), '=Raw!%s' % cell)
+                    self.rating_ws.write(row, self.rating_col(i), '=Raw!{}'.format(cell))
             row += 1
 
         return rating_rows, row
@@ -870,7 +870,7 @@ class ChildrenRatingExport:
         return db.session\
             .query(
                 subq.c.medium,
-                func.if_(subq.c.n_sources > limit, ">%s" % limit, subq.c.n_sources).label('bucket'),
+                func.if_(subq.c.n_sources > limit, ">{}".format(limit), subq.c.n_sources).label('bucket'),
                 func.count(1))\
             .select_from(subq)\
             .group_by(subq.c.medium, 'bucket')\
@@ -961,7 +961,7 @@ class MediaDiversityRatingExport(ChildrenRatingExport):
         taxonomies.sort()
 
         row = self.write_score_table(taxonomies, rows, row) + 1
-        formula = '=SUM({col}%s:{col}%s)' % (row - len(taxonomies), row - 1)
+        formula = '=SUM({{col}}{}:{{col}}{})'.format(row - len(taxonomies), row - 1)
         self.write_formula_score_row('Social Justice Focus', formula, row)
         row += 1
         self.write_percent_row('Social Justice Focus', self.score_row['Total articles'], row - 1, row)
@@ -1041,7 +1041,7 @@ class MediaDiversityRatingExport(ChildrenRatingExport):
         affiliations.sort()
 
         row = self.write_score_table(affiliations, rows, row) + 1
-        formula = '=SUM({col}%s:{col}%s)' % (row - len(affiliations), row - 1)
+        formula = '=SUM({{col}}{}:{{col}}{})'.format(row - len(affiliations), row - 1)
         self.write_formula_score_row('Marginalised Voices', formula, row)
         row += 1
         self.write_percent_row('Marginalised Voices', self.score_row['Total sources'], row - 1, row)
@@ -1071,10 +1071,10 @@ class MediaDiversityRatingExport(ChildrenRatingExport):
 
         # male / female ratio
         male, female = self.score_row['Male'], self.score_row['Female']
-        formula = '=IF({col}%s>0,{col}%s/{col}%s,0)' % (male + 1, female + 1, male + 1)
+        formula = '=IF({{col}}{}>0,{{col}}{}/{{col}}{},0)'.format(male + 1, female + 1, male + 1)
         self.write_formula_score_row('Male to female', formula, row)
         row += 1
-        formula = '=IF({col}%s>1,1/{col}%s,{col}%s)' % (row, row, row)
+        formula = '=IF({{col}}{}>1,1/{{col}}{},{{col}}{})'.format(row, row, row)
         self.write_formula_score_row('Gender Ratio', formula, row)
         row += 2
 

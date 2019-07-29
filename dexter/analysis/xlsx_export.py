@@ -684,6 +684,6 @@ class XLSXExportBuilder:
             for col in table.c:
                 if col.name not in singletons or col.name not in included:
                     included.add(col.name)
-                    cols.append(col.label('%s_%s' % (alias, col.name)))
+                    cols.append(col.label('{}_{}'.format(alias, col.name)))
 
         return cols

@@ -20,10 +20,10 @@ class PlacesExtractor(BaseExtractor):
         a place in South Africa. If it does, link them.
         """
         if doc.country.code != 'za':
-            self.log.info("Not extracting places for %s" % doc.country)
+            self.log.info("Not extracting places for {}".format(doc.country))
             return
 
-        self.log.info("Extracting places for %s" % doc)
+        self.log.info("Extracting places for {}".format(doc))
 
         places_added = 0
 
@@ -51,4 +51,4 @@ class PlacesExtractor(BaseExtractor):
                 if dp.relevance >= threshold:
                     dp.relevant = True
 
-        self.log.info("Added %d places for %s" % (places_added, doc))
+        self.log.info("Added {} places for {}".format(places_added, doc))

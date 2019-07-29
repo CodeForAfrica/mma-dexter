@@ -63,7 +63,7 @@ class AnalysisNature(db.Model):
         return self.name
 
     def __repr__(self):
-        return "<AnalysisNature name='%s'>" % (self.name.encode('utf-8'),)
+        return "<AnalysisNature name='{}'>".format(self.name.encode('utf-8'))
 
     def __eq__(self, other):
         # when comparing with an int, compare based on id
@@ -78,6 +78,9 @@ class AnalysisNature(db.Model):
             return self.id != other
         else:
             return NotImplemented
+    
+    def __hash__(self):
+        return hash(self.name)
 
     @classmethod
     def lookup(cls, name):

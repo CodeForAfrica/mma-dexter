@@ -19,7 +19,7 @@ class Topic(db.Model):
     analysis_nature_id = Column(Integer, ForeignKey('analysis_natures.id'), index=True, nullable=True)
 
     def __repr__(self):
-        return "<Topic name='%s'>" % (self.name.encode('utf-8'),)
+        return "<Topic name='{}'>".format(self.name.encode('utf-8'))
 
     def __str__(self):
         return self.name.encode('utf-8')
@@ -177,7 +177,7 @@ class DocumentTaxonomy(db.Model):
     score = Column(Float, index=True, nullable=False)
 
     def __repr__(self):
-        return "<DocumentTaxonomy label='%s', score=%f, doc=%s>" % (
+        return "<DocumentTaxonomy label='{}', score={}, doc={}>".format(
             self.label.encode('utf-8'), self.score, self.document)
 
     @classmethod

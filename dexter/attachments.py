@@ -51,7 +51,7 @@ def setup_store(app):
         bucket = app.config['ATTACHMENT_S3_BUCKET']
         prefix = app.config.get('ATTACHMENT_S3_PREFIX', '')
 
-        log.info("Storing attachments in S3 at %s/%s" % (bucket, prefix))
+        log.info("Storing attachments in S3 at {}/{}".format(bucket, prefix))
 
         store = S3Store(bucket,
                 app.config['AWS_S3_ACCESS_KEY'],
@@ -64,12 +64,12 @@ def setup_store(app):
             os.makedirs(path)
         except:
             pass
-        log.info("Storing attachments in %s" % path)
+        log.info("Storing attachments in {}".format(path))
         store = HttpExposedFileSystemStore(path, '/static-attachments/')
         app.wsgi_app = store.wsgi_middleware(app.wsgi_app)
 
     else:
-      raise ValueError("Attachment store type should be one of 'disk' or 's3', not '%s'" % store_type)
+      raise ValueError("Attachment store type should be one of 'disk' or 's3', not '{}'".format(store_type))
 
     return store
 
@@ -117,7 +117,7 @@ class S3Store(BaseS3Store):
         try:
             key.delete()
         except S3ResponseError as e:
-            self.logger.warn("Error deleting %s from S3" % key, exc_info=e)
+            self.logger.warn("Error deleting {} from S3".format(key), exc_info=e)
 
     def upload_file(self, key, data, content_type, rrs):
         headers = {

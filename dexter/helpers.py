@@ -35,7 +35,7 @@ def source_icon(source):
 def country_flag(country, **kwargs):
     if country:
         return HTML.tag('img',
-                src="/public/images/flags/%s.png" % country.code,
+                src="/public/images/flags/{}.png".format(country.code),
                 title=country.name,
                 **kwargs)
     else:
