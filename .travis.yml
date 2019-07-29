@@ -1,12 +1,7 @@
 dist: xenial
 sudo: required
-addons:
-  apt:
-    packages:
-    - mysql-server-5.6
-    - mysql-client-core-5.6
-    - mysql-client-5.6
-group: dev
+services:
+  - mysql
 language: python
 python:
   - "3.7"
