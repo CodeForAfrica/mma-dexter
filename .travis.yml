@@ -9,7 +9,7 @@ addons:
 group: dev
 language: python
 python:
-  - "2.7"
+  - "3.7"
 env:
   - SQLALCHEMY_DATABASE_URI=mysql://root:@127.0.0.1/mma_test
 install: 
