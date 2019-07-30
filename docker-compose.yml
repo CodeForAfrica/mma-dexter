@@ -7,11 +7,11 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=mma
+      - MYSQL_ROOT_PASSWORD=dexter
       - MYSQL_ROOT_HOST=*
-      - MYSQL_DATABASE=mma
-      - MYSQL_USER=mma
-      - MYSQL_PASSWORD=mma
+      - MYSQL_DATABASE=dexter
+      - MYSQL_USER=dexter
+      - MYSQL_PASSWORD=dexter
   
   redis:
     image: redis:alpine
@@ -30,7 +30,7 @@ services:
       - ./:/app
     environment:
       - PYTHONDONTWRITEBYTECODE=1
-      - SQLALCHEMY_DATABASE_URI=mysql://mma:mma@db/mma
+      - SQLALCHEMY_DATABASE_URI=mysql://dexter:dexter@db/dexter
       - BROKER_URL=redis://redis:6379/0
     # command: python app.py runserver --host=0.0.0.0
     # command: gunicorn --workers 4 --worker-class gevent --timeout 600 --error-logfile - --access-logfile - --log-level debug -b 0.0.0.0:8000 app:app
@@ -44,7 +44,7 @@ services:
       - ./:/app
     environment:
       - PYTHONDONTWRITEBYTECODE=1
-      - SQLALCHEMY_DATABASE_URI=mysql://mma:mma@db/mma
+      - SQLALCHEMY_DATABASE_URI=mysql://dexter:dexter@db/dexter
       - BROKER_URL=redis://redis:6379/0
     command: celery worker --app dexter.tasks --beat --concurrency 1 --loglevel info
 
