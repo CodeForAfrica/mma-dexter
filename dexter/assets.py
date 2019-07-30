@@ -45,6 +45,7 @@ assets.register('mine-css',
 assets.register('admin-css',
     Bundle(
       'css/admin.css',
+      output='css/admin.%(version)s.css'
     ))
 
 assets.register('maps-css',
@@ -73,7 +74,7 @@ assets.register('js', Bundle(
 
 maps = Bundle(
     'js/d3.v3.min.js',
-    'http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js',
+    'js/leaflet-0.7.2.js',
     'js/maps.js')
 
 charts = assets.register('charts',
