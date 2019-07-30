@@ -38,4 +38,4 @@ class GenericCrawler(BaseCrawler):
         else:
             doc.author = Author.unknown()
 
-        doc.published_at = self.parse_timestamp(article.published_date)
+        doc.published_at = self.parse_timestamp(article.publish_date)
