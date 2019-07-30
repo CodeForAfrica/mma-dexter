@@ -19,7 +19,7 @@ def upgrade():
     op.alter_column('issues', 'analysis_nature_id',
                existing_type=mysql.INTEGER(display_width=11),
                nullable=True,
-               existing_server_default=sa.text(u"'1'"))
+               existing_server_default=sa.text("'1'"))
     op.execute("update issues set analysis_nature_id = null")
     ### end Alembic commands ###
 
@@ -29,6 +29,6 @@ def downgrade():
     op.alter_column('issues', 'analysis_nature_id',
                existing_type=mysql.INTEGER(display_width=11),
                nullable=False,
-               existing_server_default=sa.text(u"'1'"))
+               existing_server_default=sa.text("'1'"))
     op.execute("update issues set analysis_nature_id = 1")
     ### end Alembic commands ###

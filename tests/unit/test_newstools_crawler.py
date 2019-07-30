@@ -53,4 +53,4 @@ class TestNewstoolsCrawler(unittest.TestCase):
 
     def test_unescape(self):
         self.assertEqual(self.crawler.unescape('people &#x201C;who want him to be removed as the provincial commissioner&#x201D;.'),
-                         u"people “who want him to be removed as the provincial commissioner”.")
+                         "people “who want him to be removed as the provincial commissioner”.")

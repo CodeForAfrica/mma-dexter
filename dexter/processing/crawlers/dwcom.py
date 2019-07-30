@@ -20,7 +20,7 @@ class DWCrawler(BaseCrawler):
     def extract(self, doc, raw_html):
         """ Extract text and other things from the raw_html for this document. """
         raw_html = raw_html.encode("utf-8")
-        raw_html = unicode(raw_html, errors='ignore')
+        raw_html = str(raw_html, errors='ignore')
 
         super(DWCrawler, self).extract(doc, raw_html)
 

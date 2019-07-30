@@ -221,7 +221,7 @@ class DocumentPlace(db.Model, WithOffsets):
 
         return {
             'document_count': count,
-            'mentions': mentions.values(),
+            'mentions': list(mentions.values()),
             'origins': origins,
         }
 

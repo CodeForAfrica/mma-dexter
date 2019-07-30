@@ -1,4 +1,4 @@
-from __future__ import division
+
 
 from collections import defaultdict
 import logging
@@ -19,10 +19,10 @@ def calculate_entropy(table):
     global logger
     logger.debug("Calculating entropy")
 
-    col_labels = table.keys()
+    col_labels = list(table.keys())
     row_labels = set()
-    for d in table.values():
-        row_labels.update(d.keys())
+    for d in list(table.values()):
+        row_labels.update(list(d.keys()))
     row_labels = list(row_labels)
 
     col_sums = {}
@@ -35,7 +35,7 @@ def calculate_entropy(table):
         col_sums[col] = sum(table[col].values())
 
         # sum across row
-        for row, n in table[col].items():
+        for row, n in list(table[col].items()):
             row_sums[row] += n
             total += n
 

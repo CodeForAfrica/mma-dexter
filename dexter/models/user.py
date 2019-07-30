@@ -108,7 +108,7 @@ class Role(db.Model, RoleMixin):
     description = db.Column(db.String(255))
 
     def __unicode__(self):
-        return unicode(self.name)
+        return str(self.name)
 
     @classmethod
     def create_defaults(self):

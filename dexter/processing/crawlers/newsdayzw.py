@@ -21,7 +21,7 @@ class NewsDayZWCrawler(BaseCrawler):
         """ Extract text and other things from the raw_html for this document. """
         # cleaning up the raw_html as is seems unicode 4byte characters are present which will error with DB
         raw_html = raw_html.encode("utf-8")
-        raw_html = unicode(raw_html, errors='ignore')
+        raw_html = str(raw_html, errors='ignore')
 
         super(NewsDayZWCrawler, self).extract(doc, raw_html)
 

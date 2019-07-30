@@ -56,11 +56,11 @@ class TestAlchemyExtractor(unittest.TestCase):
         keywords = [
             {
                 "relevance": "0.703385",
-                "text": u"morning",
+                "text": "morning",
             },
             {
                 "relevance": "0.562693",
-                "text": u"justice",
+                "text": "justice",
             }]
 
         self.ex.extract_keywords(self.doc, keywords)
@@ -78,11 +78,11 @@ class TestAlchemyExtractor(unittest.TestCase):
         keywords = [
             {
                 "relevance": "0.703385",
-                "text": u"morning",
+                "text": "morning",
             },
             {
                 "relevance": "0.562693",
-                "text": u"justice",
+                "text": "justice",
             }]
 
         self.ex.extract_keywords(self.doc, keywords)

@@ -30,8 +30,8 @@ def upgrade():
     op.create_index('ix_document_places_relevant', 'document_places', ['relevant'], unique=False)
     op.create_index('ix_document_sources_affiliation_id', 'document_sources', ['affiliation_id'], unique=False)
     op.create_index('ix_document_sources_person_id', 'document_sources', ['person_id'], unique=False)
-    op.drop_constraint(u'document_sources_ibfk_2', 'document_sources', type_='foreignkey')
-    op.drop_constraint(u'documents_ibfk_6', 'documents', type_='foreignkey')
+    op.drop_constraint('document_sources_ibfk_2', 'document_sources', type_='foreignkey')
+    op.drop_constraint('documents_ibfk_6', 'documents', type_='foreignkey')
     op.drop_index('ix_document_sources_entity_id', table_name='document_sources')
     op.drop_column('document_sources', 'entity_id')
     op.alter_column('documents', 'origin_location_Id', new_column_name='origin_location_id',

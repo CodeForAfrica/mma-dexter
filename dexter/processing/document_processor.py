@@ -219,7 +219,7 @@ class DocumentProcessor:
         # import xml.etree.ElementTree as ET
 
         from xml.etree import ElementTree
-        from htmlentitydefs import name2codepoint
+        from html.entities import name2codepoint
 
         if self.FEED_PASSWORD is None:
             raise ValueError("{}.FEED_PASSWORD must be set.".format(self.__class__.__name__))
@@ -240,7 +240,7 @@ class DocumentProcessor:
 
         parser = ElementTree.XMLParser()
         parser.parser.UseForeignDTD(True)
-        parser.entity.update((x, unichr(i)) for x, i in name2codepoint.items())
+        parser.entity.update((x, chr(i)) for x, i in list(name2codepoint.items()))
         etree = ElementTree
 
         return etree.fromstring(r.text.encode('utf-8'), parser=parser)
@@ -535,7 +535,7 @@ class DocumentProcessorNT:
         # import xml.etree.ElementTree as ET
 
         from xml.etree import ElementTree
-        from htmlentitydefs import name2codepoint
+        from html.entities import name2codepoint
 
         if self.FEED_PASSWORD is None:
             raise ValueError("{}.FEED_PASSWORD must be set.".format(self.__class__.__name__))
@@ -549,7 +549,7 @@ class DocumentProcessorNT:
 
         parser = ElementTree.XMLParser()
         parser.parser.UseForeignDTD(True)
-        parser.entity.update((x, unichr(i)) for x, i in name2codepoint.items())
+        parser.entity.update((x, chr(i)) for x, i in list(name2codepoint.items()))
         etree = ElementTree
 
         return etree.fromstring(r.text.encode('utf-8'), parser=parser)
@@ -559,7 +559,7 @@ class DocumentProcessorNT:
         # import xml.etree.ElementTree as ET
 
         from xml.etree import ElementTree
-        from htmlentitydefs import name2codepoint
+        from html.entities import name2codepoint
 
         if self.FEED_PASSWORD is None:
             raise ValueError("{}.FEED_PASSWORD must be set.".format(self.__class__.__name__))
@@ -573,7 +573,7 @@ class DocumentProcessorNT:
 
         parser = ElementTree.XMLParser()
         parser.parser.UseForeignDTD(True)
-        parser.entity.update((x, unichr(i)) for x, i in name2codepoint.items())
+        parser.entity.update((x, chr(i)) for x, i in list(name2codepoint.items()))
         etree = ElementTree
 
         return etree.fromstring(r.text.encode('utf-8'), parser=parser)

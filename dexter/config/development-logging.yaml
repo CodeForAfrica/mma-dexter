@@ -17,7 +17,7 @@ loggers:
   requests:
     level: DEBUG
   sqlalchemy.engine:
-    level: INFO
+    level: WARN
   passlib:
     level: INFO
 root:

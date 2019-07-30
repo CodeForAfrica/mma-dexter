@@ -344,7 +344,7 @@ class XLSXExportBuilder:
             return
 
         d = rows[0]._asdict()
-        data = [[k, d[k]] for k in sorted(d.keys(), key=len)]
+        data = [[k, d[k]] for k in sorted(list(d.keys()), key=len)]
         ws.add_table(0, 0, len(data), 1, {
             'name': 'ChildSecondaryVictimisation',
             'data': data,
@@ -517,7 +517,7 @@ class XLSXExportBuilder:
         ws = wb.add_worksheet('child_context')
 
         d = rows[0]._asdict()
-        data = [[k, d[k]] for k in d.keys()]
+        data = [[k, d[k]] for k in list(d.keys())]
         ws.add_table(0, 0, len(data), 1, {
             'name': 'ChildContext',
             'data': data,
@@ -557,7 +557,7 @@ class XLSXExportBuilder:
         keys = [row_label] + col_labels
 
         # decompose rows into a list of values
-        data = [[label] + [r[col] for col in col_labels] for label, r in data.items()]
+        data = [[label] + [r[col] for col in col_labels] for label, r in list(data.items())]
 
         ws.add_table(rownum, 0, rownum + len(data) + 1, len(keys) - 1, {
             'name': name,
@@ -647,7 +647,7 @@ class XLSXExportBuilder:
     def write_table(self, ws, name, rows, keys=None, rownum=0, colnum=0):
         if rows:
             if not keys:
-                keys = rows[0].keys()
+                keys = list(rows[0].keys())
                 data = [list(doc) for doc in rows]
             else:
                 data = []
@@ -680,7 +680,7 @@ class XLSXExportBuilder:
 
         # we need to alias columns so they don't clash
         cols = []
-        for alias, table in tables.items():
+        for alias, table in list(tables.items()):
             for col in table.c:
                 if col.name not in singletons or col.name not in included:
                     included.add(col.name)

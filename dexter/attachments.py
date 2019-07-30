@@ -154,7 +154,7 @@ class S3Store(BaseS3Store):
 class HttpExposedFileSystemStore(BaseHttpExposedFileSystemStore):
     # we override this method so we can hack in support for non-file images
     def get_path(self, object_type, object_id, *args, **kwargs):
-        if isinstance(object_id, basestring):
+        if isinstance(object_id, str):
             if '/' in object_id:
                 object_id = int(object_id.split('/')[0])
 

@@ -19,7 +19,7 @@ class NationKECrawler(BaseCrawler):
         """ Extract text and other things from the raw_html for this document. """
         
         # need to strip illegal 4 byte characters present on this site like the dot on form submission button: "\xee\x80\x81" ( \uE001 )
-        raw_html = raw_html.replace(u"\uE001", "")
+        raw_html = raw_html.replace("\uE001", "")
 
         super(NationKECrawler, self).extract(doc, raw_html)
 

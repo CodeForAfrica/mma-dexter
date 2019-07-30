@@ -26,7 +26,7 @@ def sanitise_name(name):
     Strip weird characters from names
     """
     name = punctuation_re.sub('', name)
-    name = name.replace(u'\xa0', ' ')
+    name = name.replace('\xa0', ' ')
     return name
 
 class Entity(db.Model):

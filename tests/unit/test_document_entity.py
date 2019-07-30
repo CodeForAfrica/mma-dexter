@@ -38,11 +38,11 @@ class TestEntity(unittest.TestCase):
         self.db.drop_all()
 
     def test_add_entity(self):
-        self.assertEqual(Entity.get_or_create('person', u'Zuma'), Entity.get_or_create('person', u'Zuma]'))
+        self.assertEqual(Entity.get_or_create('person', 'Zuma'), Entity.get_or_create('person', 'Zuma]'))
 
     def test_sanitise_name(self):
         self.assertEqual('foo', sanitise_name('foo'))
         self.assertEqual('A.N.C', sanitise_name('A.N.C.'))
         self.assertEqual('Zuma', sanitise_name('Zuma,]'))
-        self.assertEqual('Jacob Zuma', sanitise_name(u'Jacob\xa0Zuma'))
-        self.assertEqual('Zuma', sanitise_name(u'Zuma -'))
+        self.assertEqual('Jacob Zuma', sanitise_name('Jacob\xa0Zuma'))
+        self.assertEqual('Zuma', sanitise_name('Zuma -'))

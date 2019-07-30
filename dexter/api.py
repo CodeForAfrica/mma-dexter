@@ -1,6 +1,6 @@
 import logging
 import urllib.parse as urlparse
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from datetime import datetime, timedelta
 from dateutil.parser import parse
 log = logging.getLogger(__name__)
@@ -74,7 +74,7 @@ def api_people_sourced(name):
     from dexter.models.views import DocumentsView
 
     start_date, end_date = api_date_range(request)
-    name = urllib.unquote_plus(name)
+    name = urllib.parse.unquote_plus(name)
 
     person = Person.query.filter(Person.name == name).first()
     if not person:
@@ -353,12 +353,12 @@ def get_sources_feed(start_date, end_date, keys=None, group=None, source_type=No
 
     # let the user choose what columns they get back as a comma-separated list
     if not keys:
-        keys = FIELDS.keys()
+        keys = list(FIELDS.keys())
         if group == 'groups':
             # remove the affiliation column
             keys.remove('affiliation')
 
-    cols = [FIELDS[c] for c in FIELDS.viewkeys() & keys]
+    cols = [FIELDS[c] for c in FIELDS.keys() & keys]
 
     # we're going to filter out anything with just 1 quotation
     counts = func.count(DocumentSourcesView.c.document_id).label("record_count")

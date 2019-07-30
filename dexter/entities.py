@@ -16,7 +16,7 @@ from .models.person import PersonForm
 from .utils import paginate
 from .analysis import SourceAnalyser
 
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 
 @app.route('/entities/<string:group>/<string:name>/')

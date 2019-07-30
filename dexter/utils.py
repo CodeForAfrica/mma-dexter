@@ -1,4 +1,4 @@
-from __future__ import division
+
 from functools import wraps
 from datetime import timedelta, datetime
 

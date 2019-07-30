@@ -28,19 +28,19 @@ class TestDocument(unittest.TestCase):
     def test_add_keyword_no_dups(self):
         doc = self.doc
 
-        k = DocumentKeyword(keyword=u'foo')
+        k = DocumentKeyword(keyword='foo')
         self.assertTrue(doc.add_keyword(k))
 
-        self.assertTrue(doc.add_keyword(DocumentKeyword(keyword=u'gout')))
+        self.assertTrue(doc.add_keyword(DocumentKeyword(keyword='gout')))
         # shouldn't work
-        self.assertFalse(doc.add_keyword(DocumentKeyword(keyword=u'go\xfbt')))
+        self.assertFalse(doc.add_keyword(DocumentKeyword(keyword='go\xfbt')))
 
     def test_add_entities_no_dups(self):
         doc = self.doc
 
         e = Entity()
         e.group = 'group'
-        e.name = u'name'
+        e.name = 'name'
 
         de = DocumentEntity()
         de.entity = e
@@ -52,7 +52,7 @@ class TestDocument(unittest.TestCase):
 
         e2 = Entity()
         e2.group = 'group'
-        e2.name = u'name'
+        e2.name = 'name'
 
         de2 = DocumentEntity()
         de2.entity = e
@@ -70,8 +70,8 @@ class TestDocument(unittest.TestCase):
         u = Utterance()
         u.entity = Entity()
         u.entity.group = 'person'
-        u.entity.name = u'Fred'
-        u.quote = u'Hello'
+        u.entity.name = 'Fred'
+        u.quote = 'Hello'
 
         self.assertTrue(doc.add_utterance(u))
         self.assertTrue(u in doc.utterances)
@@ -87,8 +87,8 @@ class TestDocument(unittest.TestCase):
         u = Utterance()
         u.entity = Entity()
         u.entity.group = 'person'
-        u.entity.name = u'Fred'
-        u.quote = u'Hello there guys'
+        u.entity.name = 'Fred'
+        u.quote = 'Hello there guys'
 
         self.assertTrue(doc.add_utterance(u))
         self.assertTrue(u in doc.utterances)
@@ -97,28 +97,28 @@ class TestDocument(unittest.TestCase):
         u2 = Utterance()
         u2.entity = Entity()
         u2.entity.group = 'person'
-        u2.entity.name = u'Fred'
-        u2.quote = u'\"Hello there guys,\" ...'
+        u2.entity.name = 'Fred'
+        u2.quote = '\"Hello there guys,\" ...'
 
         self.assertFalse(doc.add_utterance(u2))
         self.assertEqual(1, len(doc.utterances))
 
     def test_add_utterance_update_offset(self):
         doc = self.doc
-        doc.text = u'And Fred said "Hello" to everyone.'
+        doc.text = 'And Fred said "Hello" to everyone.'
 
         u = Utterance()
         u.entity = Entity()
         u.entity.group = 'person'
-        u.entity.name = u'Fred'
-        u.quote = u'Hello'
+        u.entity.name = 'Fred'
+        u.quote = 'Hello'
         self.assertTrue(doc.add_utterance(u))
 
         u2 = Utterance()
         u2.entity = Entity()
-        u2.entity.group = u'person'
-        u2.entity.name = u'Fred'
-        u2.quote = u'Hello'
+        u2.entity.group = 'person'
+        u2.entity.name = 'Fred'
+        u2.quote = 'Hello'
         u2.offset = 10
         u2.length = 5
 
@@ -130,14 +130,14 @@ class TestDocument(unittest.TestCase):
 
     def test_delete_document(self):
         doc = self.doc
-        doc.text = u'And Fred said "Hello" to everyone.'
+        doc.text = 'And Fred said "Hello" to everyone.'
         doc.published_at = datetime.datetime.utcnow()
 
         u = Utterance()
         u.entity = Entity()
         u.entity.group = 'person'
-        u.entity.name = u'Fred'
-        u.quote = u'Hello'
+        u.entity.name = 'Fred'
+        u.quote = 'Hello'
         self.assertTrue(doc.add_utterance(u))
 
         de = DocumentEntity()

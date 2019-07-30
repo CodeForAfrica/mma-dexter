@@ -763,7 +763,7 @@ class ChildrenRatingExport:
         """
         self.set_score_row(name, row)
 
-        if isinstance(formula, basestring):
+        if isinstance(formula, str):
             f = formula
             formula = lambda r, c: f.format(row=r, col=c)
 

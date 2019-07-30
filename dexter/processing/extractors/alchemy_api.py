@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-from __future__ import print_function
+
 
 import requests
 
@@ -24,8 +24,8 @@ try:
     from urllib.parse import urlencode
 except ImportError:
     from urllib.parse import urlparse
-    from urllib2 import urlopen
-    from urllib import urlencode
+    from urllib.request import urlopen
+    from urllib.parse import urlencode
 
 try:
     import json

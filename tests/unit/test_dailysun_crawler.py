@@ -259,5 +259,5 @@ class TestTimesliveCrawler(unittest.TestCase):
         self.assertEqual(doc.author.name, 'SIBONGILE MABENA')
         self.assertEqual(doc.medium.name, 'Daily Sun')
 
-        self.assertEqual(doc.text, u'THE magoshas say he is a cruel cop who seems to enjoy making their tough lives even tougher.\n\nHe doesn\u2019t bonk them but he pushes his fingers inside them, he takes their money and he beats them.\n\nHE EVEN FORCES THEM TO OPEN THEIR LEGS SO HE CAN TAKE PICTURES OF THEIR PRIVATE PARTS.\n\nThe magoshas who work in Tembisa, Ekurhuleni agree that the cop, a section manager at Olifantsfontein cop shop in Midrand, does things to them because he likes to humiliate and hurt them.')
+        self.assertEqual(doc.text, 'THE magoshas say he is a cruel cop who seems to enjoy making their tough lives even tougher.\n\nHe doesn\u2019t bonk them but he pushes his fingers inside them, he takes their money and he beats them.\n\nHE EVEN FORCES THEM TO OPEN THEIR LEGS SO HE CAN TAKE PICTURES OF THEIR PRIVATE PARTS.\n\nThe magoshas who work in Tembisa, Ekurhuleni agree that the cop, a section manager at Olifantsfontein cop shop in Midrand, does things to them because he likes to humiliate and hurt them.')
         

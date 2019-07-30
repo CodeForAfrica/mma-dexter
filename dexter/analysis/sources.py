@@ -120,11 +120,11 @@ class SourceAnalyser(BaseAnalyser):
         """
         Do trend analysis on people.
         """
-        utterance_count = self.count_utterances(self.people.keys())
-        source_counts = self.source_frequencies(self.people.keys())
+        utterance_count = self.count_utterances(list(self.people.keys()))
+        source_counts = self.source_frequencies(list(self.people.keys()))
 
         self.analysed_people = {}
-        for pid, person in self.people.items():
+        for pid, person in list(self.people.items()):
             src = AnalysedSource()
             src.person = person
 
@@ -138,12 +138,12 @@ class SourceAnalyser(BaseAnalyser):
         totals = [0] * (self.days+1)
 
         # first count per-day totals
-        for src in self.analysed_people.values():
+        for src in list(self.analysed_people.values()):
             for i, n in enumerate(src.source_counts):
                 totals[i] += n
 
         # normalize
-        for src in self.analysed_people.values():
+        for src in list(self.analysed_people.values()):
             for i, n in enumerate(src.source_counts):
                 if totals[i] == 0:
                     src.source_counts[i] = 0
@@ -153,19 +153,19 @@ class SourceAnalyser(BaseAnalyser):
         # calculate trends
         # normalise source counts
         if self.analysed_people:
-            biggest = max(src.source_counts_total for src in self.analysed_people.values())
-            for src in self.analysed_people.values():
+            biggest = max(src.source_counts_total for src in list(self.analysed_people.values()))
+            for src in list(self.analysed_people.values()):
                 src.source_counts_trend = moving_weighted_avg_zscore(src.source_counts, 0.8)
                 src.source_counts_normalised = src.source_counts_total * 1.0 / biggest
 
         # top 20 sources
         self.top_people = sorted(
-                self.analysed_people.values(),
+                list(self.analysed_people.values()),
                 key=lambda s: s.source_counts_total, reverse=True)[:20]
 
         # trends
         trending = sorted(
-                self.analysed_people.values(),
+                list(self.analysed_people.values()),
                 key=lambda s: s.source_counts_trend)
 
         # top 10 trending up, most trending first
@@ -246,4 +246,4 @@ class SourceAnalyser(BaseAnalyser):
                 .limit(20)\
                 .all()
 
-        return self._lookup_people([r[0] for r in rows]).values()
+        return list(self._lookup_people([r[0] for r in rows]).values())

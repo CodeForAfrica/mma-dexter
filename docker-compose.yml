@@ -32,8 +32,8 @@ services:
       - PYTHONDONTWRITEBYTECODE=1
       - SQLALCHEMY_DATABASE_URI=mysql://dexter:dexter@db/dexter
       - BROKER_URL=redis://redis:6379/0
+    command: gunicorn --workers 3 --worker-class gevent --timeout 600 --log-file - --access-logfile - -b 0.0.0.0:5000 app:app
     # command: python app.py runserver --host=0.0.0.0
-    # command: gunicorn --workers 4 --worker-class gevent --timeout 600 --error-logfile - --access-logfile - --log-level debug -b 0.0.0.0:8000 app:app
   
   worker:
     build: .

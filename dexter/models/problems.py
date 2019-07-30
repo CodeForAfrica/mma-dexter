@@ -20,7 +20,7 @@ class DocumentAnalysisProblem(object):
     def all(cls):
         if not cls._problems:
             cls._problems = dict((k.code, k()) for k in cls.__subclasses__())
-        return sorted(cls._problems.values(), key=lambda k: k.short_desc)
+        return sorted(list(cls._problems.values()), key=lambda k: k.short_desc)
 
     @classmethod
     def for_document(cls, doc):

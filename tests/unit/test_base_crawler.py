@@ -21,10 +21,10 @@ class TestBaseCrawler(unittest.TestCase):
         doc = Document()
 
         doc.url = 'http://www.iol.co.za/isolezwe/ezikamalema-zethule-abazo-ekzn-1.1667768#.Uzk8La2SxWu'
-        self.assertEquals(self.crawler.identify_medium(doc).name, 'Isolezwe')
+        self.assertEqual(self.crawler.identify_medium(doc).name, 'Isolezwe')
 
         doc.url = 'http://www.iol.co.za/news/politics/nkandla-job-not-finished-madonsela-1.1669787#.UzvP7K2SxWs'
-        self.assertEquals(self.crawler.identify_medium(doc).name, 'IOL')
+        self.assertEqual(self.crawler.identify_medium(doc).name, 'IOL')
 
         doc.url = 'http://www.iol.co.za/news/politics/nkandla-job-not-finished-madonsela-1.1669787#.UzvP7K2SxWs'
-        self.assertEquals(self.crawler.identify_medium(doc).name, 'IOL')
+        self.assertEqual(self.crawler.identify_medium(doc).name, 'IOL')

@@ -1,4 +1,4 @@
-from __future__ import division
+
 
 import re
 import datetime
@@ -365,7 +365,7 @@ class DocumentForm(Form):
         self.analysis_nature_id.choices = [[str(t.id), 'Analyse for {}'.format(t.name)] for t in AnalysisNature.all()]
         self.country_id.choices = [[str(c.id), c.name] for c in Country.all()]
 
-        if self.tags.data is not None and not isinstance(self.tags.data, basestring):
+        if self.tags.data is not None and not isinstance(self.tags.data, str):
             self.tags.data = ','.join(self.tags.data)
         self.tags.choices = [t[0] for t in db.session.query(DocumentTag.tag.distinct()).order_by(DocumentTag.tag)]
 

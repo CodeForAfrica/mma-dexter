@@ -57,10 +57,10 @@ class TopicAnalyser(BaseAnalyser):
         """
         Do trend analysis on people mentions.
         """
-        mention_counts = self.mention_frequencies(self.people.keys())
+        mention_counts = self.mention_frequencies(list(self.people.keys()))
 
         self.analysed_people = {}
-        for pid, person in self.people.items():
+        for pid, person in list(self.people.items()):
             mention = AnalysedMention()
             mention.person = person
             mention.mention_counts = mention_counts[pid]
@@ -71,12 +71,12 @@ class TopicAnalyser(BaseAnalyser):
         totals = [0] * (self.days+1)
 
         # first count per-day totals
-        for topic in self.analysed_people.values():
+        for topic in list(self.analysed_people.values()):
             for i, n in enumerate(topic.mention_counts):
                 totals[i] += n
 
         # normalize
-        for topic in self.analysed_people.values():
+        for topic in list(self.analysed_people.values()):
             for i, n in enumerate(topic.mention_counts):
                 if totals[i] == 0:
                     topic.mention_counts[i] = 0
@@ -84,18 +84,18 @@ class TopicAnalyser(BaseAnalyser):
                     topic.mention_counts[i] = 100.0 * n / totals[i]
 
         # calculate trends
-        for topic in self.analysed_people.values():
+        for topic in list(self.analysed_people.values()):
             topic.mention_counts_trend = moving_weighted_avg_zscore(topic.mention_counts, 0.8)
 
 
         # top 20 sources
         self.top_people = sorted(
-                self.analysed_people.values(),
+                list(self.analysed_people.values()),
                 key=lambda s: s.mention_counts_total, reverse=True)[:20]
 
         # trends
         trending = sorted(
-                self.analysed_people.values(),
+                list(self.analysed_people.values()),
                 key=lambda s: s.mention_counts_trend)
 
         # top 10 trending up, most trending first
@@ -190,7 +190,7 @@ class TopicAnalyser(BaseAnalyser):
         day_counts = self.date_histogram(d.published_at for d in docs)
 
         # generate topic info
-        for i, clustering in clusters.items():
+        for i, clustering in list(clusters.items()):
             # cluster is a list of (doc-index, score) pairs
 
             # sort each cluster to put top-scoring docs first
@@ -204,7 +204,7 @@ class TopicAnalyser(BaseAnalyser):
 
             # top 8 features for this cluster as (feature, weight) pairs
             indexes = numpy.argsort(lda_model.components_[i])[:-8:-1]
-            cluster.features = zip(features[indexes], lda_model.components_[i][indexes])
+            cluster.features = list(zip(features[indexes], lda_model.components_[i][indexes]))
 
             # top 20 of each cluster are used to characterize the cluster
             best = clustering[0:20]
@@ -219,7 +219,7 @@ class TopicAnalyser(BaseAnalyser):
 
             # media counts
             media = dict(collections.Counter([d.medium for d in cluster_docs]))
-            cluster.media_counts = sorted(media.items(), key=lambda p: p[1], reverse=True)
+            cluster.media_counts = sorted(list(media.items()), key=lambda p: p[1], reverse=True)
 
             # publication dates
             cluster.histogram = self.date_histogram((d.published_at for d in cluster_docs))

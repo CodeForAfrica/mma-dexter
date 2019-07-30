@@ -160,7 +160,7 @@ class Person(db.Model):
         self.log.debug("Affiliation weights for {}: {}".format(self, weights))
 
         if weights:
-            affiliation, _ = max(weights.items(), key=lambda pair: pair[1])
+            affiliation, _ = max(list(weights.items()), key=lambda pair: pair[1])
 
             if affiliation != self.affiliation:
                 self.log.info("Learned new affiliation for {}: was={}, now={}".format(self, self.affiliation, affiliation))

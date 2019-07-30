@@ -336,7 +336,7 @@ def edit_article_analysis(id):
                                     if not e.form.is_deleted() and not e.form.is_empty()]
 
             # new fairness
-            for key in sorted(set('-'.join(key.split('-', 3)[0:2]) for key in request.form.keys() if
+            for key in sorted(set('-'.join(key.split('-', 3)[0:2]) for key in list(request.form.keys()) if
                                   key.startswith('fairness-new['))):
                 frm = DocumentFairnessForm(prefix=key)
                 # skip new fairness that have an empty bias
@@ -388,15 +388,15 @@ def edit_article_analysis(id):
                     flash('Please correct the problems below and try again.', 'warning')
     else:
         if current_user.has_role('fdi'):
-            t2_options = {1: range(1, 48) + [73], 2: range(48, 57) + [73], 3: range(57, 65) + [73],
-                          4: range(65, 73) + [73],
+            t2_options = {1: list(range(1, 48)) + [73], 2: list(range(48, 57)) + [73], 3: list(range(57, 65)) + [73],
+                          4: list(range(65, 73)) + [73],
                           5: [73]}
             t3_options = {9: [1, 19], 33: [2, 19], 48: [3, 19], 49: [4, 19], 50: [5, 6, 7, 19], 51: [8, 9, 19],
                           52: [10, 11, 19], 53: [12, 19], 54: [13, 19],
                           55: [14, 19], 56: [15, 19], 57: [16, 19], 58: [17, 19], 59: [18, 19], 73: [19]}
 
             if fdi_form.involvement_id1.data is not None:
-                if int(fdi_form.involvement_id1.data) in t2_options.keys():
+                if int(fdi_form.involvement_id1.data) in list(t2_options.keys()):
                     fdi_form.involvement_id2.choices = [[str(c.id), c.name] for c in Involvements2.query.filter(Involvements2.id.in_(t2_options[int(fdi_form.involvement_id1.data)])).all()]
                 else:
                     fdi_form.involvement_id2.choices = [["73", "unspecified"]]
@@ -404,7 +404,7 @@ def edit_article_analysis(id):
                 fdi_form.involvement_id2.choices = [["73", "unspecified"]]
 
             if fdi_form.involvement_id2.data is not None:
-                if int(fdi_form.involvement_id2.data) in t3_options.keys():
+                if int(fdi_form.involvement_id2.data) in list(t3_options.keys()):
                     fdi_form.involvement_id3.choices = [[str(c.id), c.name] for c in Involvements3.query.filter(Involvements3.id.in_(t3_options[int(fdi_form.involvement_id2.data)])).all()]
                 else:
                     fdi_form.involvement_id3.choices = [["19", "unspecified"]]

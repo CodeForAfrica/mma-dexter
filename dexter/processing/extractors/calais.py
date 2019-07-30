@@ -32,10 +32,10 @@ class CalaisExtractor(BaseExtractor):
     def extract_entities(self, doc, calais):
         entities_added = 0
 
-        for group, group_ents in calais.get('entities', {}).items():
+        for group, group_ents in list(calais.get('entities', {}).items()):
             group = self.normalise_name(group)
 
-            for ent in group_ents.values():
+            for ent in list(group_ents.values()):
                 if 'name' not in ent or len(ent['name']) < 2:
                     continue
 
@@ -56,7 +56,7 @@ class CalaisExtractor(BaseExtractor):
     def extract_utterances(self, doc, calais):
         utterances_added = 0
 
-        for quote in calais.get('relations', {}).get('Quotation', {}).values():
+        for quote in list(calais.get('relations', {}).get('Quotation', {}).values()):
             u = Utterance()
             u.quote = quote['quotation'].strip()
 
@@ -77,8 +77,8 @@ class CalaisExtractor(BaseExtractor):
     def extract_topics(self, doc, calais):
         added = 0
 
-        for topicpairs in calais.get('topics', {}).values():
-            for topic in topicpairs.values():
+        for topicpairs in list(calais.get('topics', {}).values()):
+            for topic in list(topicpairs.values()):
                 dt = DocumentTaxonomy()
                 dt.document = doc
                 dt.label = topic['name'].replace('_', ' ')
@@ -121,10 +121,10 @@ class CalaisExtractor(BaseExtractor):
         a nicer layout, keying extractions by their type.
         """
         # resolve references
-        for key, val in js.items():
+        for key, val in list(js.items()):
             if isinstance(val, dict):
-                for attr, attr_val in val.items():
-                    if isinstance(attr_val, basestring):
+                for attr, attr_val in list(val.items()):
+                    if isinstance(attr_val, str):
                         if attr_val in js:
                             val[attr] = js[attr_val]
 
@@ -141,7 +141,7 @@ class CalaisExtractor(BaseExtractor):
         #   relations:
         #     Quotation: [ ... ]
 
-        for key, val in js.items():
+        for key, val in list(js.items()):
             grp = val.get('_typeGroup')
 
             if grp:
