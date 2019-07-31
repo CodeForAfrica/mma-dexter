@@ -37,5 +37,10 @@ class GenericCrawler(BaseCrawler):
             doc.author = Author.get_or_create(author, AuthorType.journalist())
         else:
             doc.author = Author.unknown()
-
-        doc.published_at = self.parse_timestamp(article.publish_date)
+        
+        if article.publish_date:
+            doc.published_at = self.parse_timestamp(article.publish_date)
+        else:
+            import datetime
+            doc.published_at = datetime.datetime(199, 1, 1, 1, 1)
+        
