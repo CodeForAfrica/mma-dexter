@@ -309,6 +309,7 @@ admin_instance.add_view(IssueView(Issue, db.session, name="Issues", endpoint="is
 admin_instance.add_view(MyModelView(Fairness, db.session, name="Bias", endpoint="bias", category='Article Information'))
 admin_instance.add_view(MyModelView(Principle, db.session, name="Principles", endpoint="principles", category='Article Information'))
 
+admin_instance.add_view(MyModelView(Person, db.session, name="Persons", endpoint='persons', category='Source Information'))
 admin_instance.add_view(MyModelView(SourceFunction, db.session, name="Functions", endpoint='functions', category='Source Information'))
 admin_instance.add_view(AffiliationView(Affiliation, db.session, name="Affiliations", endpoint="affiliations", category='Source Information'))
 admin_instance.add_view(MyModelView(AuthorType, db.session, name="Author Types", endpoint="authortypes", category='Source Information'))
