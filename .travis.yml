@@ -1,11 +1,5 @@
 dist: xenial
 sudo: required
-addons:
-  apt:
-    packages:
-    - mysql-server-5.7
-    - mysql-client-core-5.7
-    - mysql-client-5.7
 services:
   - mysql
 group: dev
