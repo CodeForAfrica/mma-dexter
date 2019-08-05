@@ -3,9 +3,9 @@ import re
 class WithOffsets():
     """ Helper mixin for models that use offsets. Assumes the existence
     of a +offset_list+ attribute which contains a space-separated list of offset:length pairs.
-    NOTE(kilemensi): Looks like offset pairs are now ':' separated and they are (offset, length)
+    TODO(kilemensi): Looks like offset pairs are now ':' separated and they are
+                     (offset, length). This needs to be confirmed though.
     """
-    # SPACE_RE = re.compile(r' +')
     SPACE_RE = re.compile(r'[( )]')
 
     def offsets(self):
