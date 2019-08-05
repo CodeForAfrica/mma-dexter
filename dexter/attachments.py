@@ -17,7 +17,8 @@ store = None
 
 def setup_attachments(app):
     # max upload size
-    patch_request_class(app, 6 * 1024 * 1024)
+    # TODO(kilemensi): Temporarily upgrade limit to 100 MB to allow file archives
+    patch_request_class(app, 100 * 1024 * 1024)
 
     # attachment store
     global store

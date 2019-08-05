@@ -143,7 +143,7 @@ class ChildrenRatingExport:
         """
         Generate an Excel spreadsheet and return it as a string.
         """
-        output = StringIO.StringIO()
+        output = StringIO
 
         workbook = xlsxwriter.Workbook(output)
 
