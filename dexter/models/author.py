@@ -85,7 +85,7 @@ class AuthorType(db.Model):
 
     @classmethod
     def journalist(cls):
-        return AuthorType.query.filter(AuthorType.name == 'Journalist').one()
+        return AuthorType.query.filter(AuthorType.name == 'Media: Journalist (Single)').one()
 
     @classmethod
     def unknown(cls):
@@ -94,11 +94,15 @@ class AuthorType(db.Model):
     @classmethod
     def create_defaults(cls):
         text = """
-        Journalist
-        Agency
-        Guest Writer
-        Many Journalists
-        Journalist and Agency
+        Government: Member of Executive Council (MEC)
+        Government: Member of Parliament
+        Government: National Cabinet Minister
+        Government: Spokesperson
+        Media: Guest Writer
+        Media: Journalist (Single)
+        Media: Journalist and News Agency
+        Media: Journalists (Multiple)
+        Media: News Agency
         Unknown
         """
         types = []
