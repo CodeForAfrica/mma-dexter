@@ -1,6 +1,6 @@
 from urllib.parse import urlparse, urlunparse
 import re
-from html.parser import HTMLParser
+from html import unescape
 
 from bs4 import BeautifulSoup
 import requests
@@ -9,10 +9,10 @@ from .base import BaseCrawler
 from ...models import Author, AuthorType
 
 
-def unescape(html):
+def unescape_none(html):
     if html is None:
         return None
-    return HTMLParser.HTMLParser().unescape(html)
+    return unescape(html)
 
 
 class IOLCrawler(BaseCrawler):
@@ -42,8 +42,8 @@ class IOLCrawler(BaseCrawler):
         iol_id = self.NUMBER_RE.findall(parts.path)[0]
         info = self.fetch_json_info(iol_id)
 
-        doc.title = unescape(info['title'])
-        doc.summary = unescape(info.get('description'))
+        doc.title = unescape_none(info['title'])
+        doc.summary = unescape_none(info.get('description'))
 
         doc.text = '\n\n'.join(BeautifulSoup(p).text.strip() for p in info['paragraphs'])
         doc.published_at = self.parse_timestamp(info['published'])

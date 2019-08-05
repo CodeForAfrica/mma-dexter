@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from html import unescape
 import unittest
 
 from dexter.models import db
@@ -52,5 +53,5 @@ class TestNewstoolsCrawler(unittest.TestCase):
         self.assertEqual('Mail and Guardian', doc.medium.name)
 
     def test_unescape(self):
-        self.assertEqual(self.crawler.unescape('people &#x201C;who want him to be removed as the provincial commissioner&#x201D;.'),
+        self.assertEqual(unescape('people &#x201C;who want him to be removed as the provincial commissioner&#x201D;.'),
                          "people “who want him to be removed as the provincial commissioner”.")

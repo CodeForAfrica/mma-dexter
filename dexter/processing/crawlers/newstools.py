@@ -1,5 +1,5 @@
 from urllib.parse import urlparse
-from html.parser import HTMLParser
+from html import unescape
 import requests
 from dateutil.parser import parse
 import re
@@ -66,11 +66,7 @@ class NewstoolsCrawler(BaseCrawler):
     def fetch_text(self, url):
         r = requests.get(url, verify=False, timeout=60)
         r.raise_for_status()
-        return self.unescape(r.text)
-
-    def unescape(self, text):
-        html_parser = HTMLParser.HTMLParser()
-        return html_parser.unescape(text)
+        return unescape(r.text)
 
 
 class NewstoolsCrawlerNT(BaseCrawler):
@@ -127,7 +123,7 @@ class NewstoolsCrawlerNT(BaseCrawler):
         """
         doc = Document()
         doc.url = item['url']
-        title = str(unidecode.unidecode(HTMLParser.HTMLParser().unescape(item['title'])))
+        title = str(unidecode.unidecode(unescape(item['title'])))
         doc.title = title.replace("aEUR(tm)", "'").replace("aEUR~", "'").replace('aEUR"', '-').replace('aEURs', ',')\
             .replace('aEUR<', '')
         doc.published_at = parse(item['publishdate'])
@@ -142,7 +138,7 @@ class NewstoolsCrawlerNT(BaseCrawler):
 
         text_url = item['text_url']
         r_s = requests.get(text_url)
-        s = str(unidecode.unidecode(HTMLParser.HTMLParser().unescape(r_s.text)))
+        s = str(unidecode.unidecode(unescape(r_s.text)))
         doc.text = re.sub(' +', ' ', s)
 
         return doc
@@ -150,8 +146,4 @@ class NewstoolsCrawlerNT(BaseCrawler):
     def fetch_text(self, url):
         r = requests.get(url, verify=False, timeout=60)
         r.raise_for_status()
-        return self.unescape(r.text)
-
-    def unescape(self, text):
-        html_parser = HTMLParser.HTMLParser()
-        return html_parser.unescape(text)
+        return unescape(r.text)

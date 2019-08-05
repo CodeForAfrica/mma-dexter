@@ -173,4 +173,4 @@ class AlchemyExtractor(BaseExtractor):
             offsets.append((start, needle_len))
             start += needle_len
 
-        return ' '.join('{}:{}'.format(p, p) for p in offsets[:100])
+        return ' '.join('{}:{}'.format(*p) for p in offsets[:100])
