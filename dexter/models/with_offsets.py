@@ -19,7 +19,7 @@ class WithOffsets():
         if pair in self.offsets():
             return False
 
-        self.offset_list = ((self.offset_list or '') + " {}:{}".format(pair, pair)).strip()
+        self.offset_list = ((self.offset_list or '') + " {}:{}".format(*pair)).strip()
         return True
 
     def add_offsets(self, pairs):
