@@ -1,6 +1,6 @@
 from urllib.parse import urlparse, urlunparse
 import re
-from html.parser import HTMLParser
+from html import unescape
 
 from bs4 import BeautifulSoup
 import requests
@@ -12,7 +12,7 @@ from ...models import Author, AuthorType
 def unescape(html):
     if html is None:
         return None
-    return HTMLParser.HTMLParser().unescape(html)
+    return unescape(html)
 
 
 class IOLCrawler(BaseCrawler):
