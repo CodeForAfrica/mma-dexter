@@ -50,7 +50,7 @@ class Cluster(db.Model):
     def make_fingerprint(cls, doc_ids):
         m = hashlib.md5()
         for i in sorted(doc_ids):
-            m.update(str(i, 'utf-8'))
+            m.update(str(i))
         return m.hexdigest()
 
     @classmethod
