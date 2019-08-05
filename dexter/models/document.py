@@ -24,6 +24,8 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.dialects.mysql import LONGTEXT
 from sqlalchemy_fulltext import FullText
 
+from flask_wtf.file import FileField
+
 from ..forms import Form, IntegerField, SelectField, RadioField
 from ..app import db
 from .problems import DocumentAnalysisProblem
@@ -338,6 +340,7 @@ class DocumentForm(Form):
     log = logging.getLogger(__name__)
 
     url         = URLField('URL', [validators.Length(max=200)])
+    archive_file = FileField()
     title       = StringField('Headline', [validators.Required(), validators.Length(max=1024)])
     published_at = DateTimeField('Published/broadcast on', [validators.Required()], format='%Y/%m/%d %H:%M')
     summary     = TextAreaField('Summary', [validators.Length(max=1024)])
