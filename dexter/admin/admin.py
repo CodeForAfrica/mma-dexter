@@ -311,6 +311,7 @@ admin_instance.add_view(MyModelView(Principle, db.session, name="Principles", en
 
 admin_instance.add_view(MyModelView(SourceFunction, db.session, name="Functions", endpoint='functions', category='Source Information'))
 admin_instance.add_view(AffiliationView(Affiliation, db.session, name="Affiliations", endpoint="affiliations", category='Source Information'))
-admin_instance.add_view(MyModelView(AuthorType, db.session, name="Authors", endpoint="authortypes", category='Source Information'))
+admin_instance.add_view(MyModelView(AuthorType, db.session, name="Author Types", endpoint="authortypes", category='Source Information'))
+admin_instance.add_view(MyModelView(Author, db.session, name="Authors", endpoint="authors", category='Source Information'))
 admin_instance.add_view(MyModelView(SourceAge, db.session, name="Ages", endpoint="ages", category='Source Information'))
 admin_instance.add_view(SourceRoleView(SourceRole, db.session, name="Roles", endpoint="roles", category='Source Information'))
