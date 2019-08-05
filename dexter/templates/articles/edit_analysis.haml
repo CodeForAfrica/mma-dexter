@@ -1,7 +1,6 @@
 %%inherit(file="layout.haml")
 %%namespace(file="../helpers/bootstrap_wtf.haml", **{'import': '*'})
 
-- from itertools import izip
 - from dexter.models import AnalysisNature
 
 %%block(name="title")
@@ -151,7 +150,7 @@
                         %th.support Supported
                         %th Principle
                         %th.violate Violated
-                    - for support_field, violate_field in izip(form.principle_supported_id, form.principle_violated_id):
+                    - for support_field, violate_field in zip(form.principle_supported_id, form.principle_violated_id):
                       %tr
                         %td.support= support_field
                         %td

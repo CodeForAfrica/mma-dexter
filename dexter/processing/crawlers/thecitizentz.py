@@ -28,7 +28,7 @@ class TheCitizenTZCrawler(BaseCrawler):
         doc.title = self.extract_plaintext(soup.select("article.main.column .story-view header h1"))
 
         #gather publish date
-        date = self.extract_plaintext(soup.select("article.main.column .story-view header h5"))
+        date = self.extract_plaintext(soup.select("article.main.column .story-view header h6"))
         doc.published_at = self.parse_timestamp(date)
         
         #gather text and summary

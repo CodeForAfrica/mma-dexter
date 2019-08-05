@@ -1,6 +1,6 @@
 import datetime
 import io
-from io import StringIO
+from io import BytesIO
 
 from sqlalchemy import (
     Table,
@@ -84,7 +84,7 @@ class DocumentAttachment(db.Model):
             self.log.info("Converting PDF to image")
             with WandImage(file=data, resolution=300) as img:
                 img.format = 'png'
-                data = StringIO()
+                data = BytesIO()
                 img.save(file=data)
                 data.seek(0)
             self.log.info("Converted")
@@ -149,7 +149,7 @@ class DocumentAttachment(db.Model):
         attachment.filename = secure_filename(upload.filename)
         attachment.mimetype = upload.mimetype
 
-        if user and user.is_authenticated():
+        if user and user.is_authenticated:
             attachment.created_by = user
 
         # set the data and generate thumbnails

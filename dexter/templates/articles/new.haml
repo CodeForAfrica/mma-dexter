@@ -50,3 +50,34 @@
           %input(type='hidden', name='manual', value='True')
           %input.btn.btn-success(type='submit', value='Add new article', dataDisableWith='Adding...')
 
+      %form.safedirty.new-document(action=url_for('new_article'), method='POST', enctype='multipart/form-data')
+        = form.csrf_token
+
+        %fieldset.document-container
+          %legend Or by builk uploading
+
+          .form-group
+            %span.form-control
+              %input(type='file', id='archive_file', name='archive_file')
+
+          .form-group
+            - for nature in form.analysis_nature_id:
+              .checkbox
+                = nature
+                - kwargs = {'for': nature.id}
+                %label(**kwargs)
+                  %i.fa(class_=AnalysisNature.query.get(nature.data).icon())
+                  = nature.label.text
+          .row
+            .col-sm-1
+              = vertical_field(form.item_num, min=1, max=100)
+            .col-sm-3
+              = vertical_field(form.medium_id, class_='select2')
+            .col-sm-4
+              = vertical_field(form.document_type_id, class_='select2')
+            .col-sm-4
+              = vertical_field(form.country_id, class_='select2')
+
+          %input(type='hidden', name='manual', value='True')
+          %input(type='hidden', name='archive', value='True')
+          %input.btn.btn-success(type='submit', value="Upload and add article(s)", dataDisableWith='Uploading...')

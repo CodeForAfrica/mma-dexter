@@ -26,7 +26,7 @@ class FDIExportBuilder:
         """
         Generate an Excel spreadsheet and return it as a string.
         """
-        output = StringIO.StringIO()
+        output = StringIO
         workbook = xlsxwriter.Workbook(output)
 
         self.formats['date'] = workbook.add_format({'num_format': 'yyyy/mm/dd'})

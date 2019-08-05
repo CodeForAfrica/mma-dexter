@@ -1,10 +1,15 @@
+from datetime import datetime
+import io
 import logging
+import re
+from zipfile import ZipFile
 
 from flask import request, url_for, flash, redirect, make_response, jsonify, abort, session
 from flask_mako import render_template
 from flask_security import roles_accepted, current_user, login_required
 
 from wand.exceptions import WandError
+from werkzeug.utils import secure_filename
 
 from .app import app
 from .models import db, Document, Issue, DocumentPlace, DocumentAttachment, DocumentTag, Investment, Phases, Sectors, \
@@ -121,7 +126,6 @@ def new_article():
 
     form.url.data = form.url.data or request.args.get('url')
     url = form.url.data
-
     if request.method == 'POST':
         doc = None
         proc = DocumentProcessor()
@@ -145,7 +149,7 @@ def new_article():
                     except ProcessingError as e:
                         log.error("Error processing {}: {}".format(url, e), exc_info=e)
                         flash("Something went wrong processing the document: {}".format(e,), 'error')
-        else:
+        elif 'manual' in request.form and 'archive' not in request.form:
             # new document from article text
             if author_form.validate():
                 # link author
@@ -164,6 +168,8 @@ def new_article():
                         log.error("Error processing raw document: {}".format(e,), exc_info=e)
                         flash("Something went wrong processing the document: {}".format(e,), 'error')
                         doc = None
+        elif 'manual' in request.form and 'archive' in request.form:
+            return new_articles_from_archive(url, proc, form, author_form)
 
         if doc:
             if current_user.is_authenticated:
@@ -182,6 +188,86 @@ def new_article():
             db.session.commit()
             flash('Article added.')
             return redirect(url_for('edit_article_analysis', id=id))
+
+    return render_template('articles/new.haml',
+                           url=url,
+                           form=form,
+                           author_form=author_form)
+
+
+def new_articles_from_archive(url, proc, form, author_form):
+    if form.archive_file.data:
+        # new document from article text
+        if author_form.validate():
+            # link author
+            form.author_id.data = author_form.get_or_create_author().id
+            articles_count = 0
+            id = None
+            archive_name = secure_filename(form.archive_file.name)
+            with ZipFile(request.files[archive_name], 'r') as zip:
+                for file_name in zip.namelist():
+                    filename_parts = file_name.split(' - ')
+                    if len(filename_parts) == 2:
+                        form.title.data = re.sub(
+                            r'\.txt$', '', filename_parts[1]).strip()
+                        form.published_at.data = datetime.strptime(
+                            filename_parts[0], '%d-%b-%Y')
+                        form.text.data = io.TextIOWrapper(
+                            io.BytesIO(zip.read(file_name))).read()
+
+                        # Validate using current form first before creating
+                        # new form for each file in the zip archive
+                        if form.validate():
+                            newForm = DocumentForm()
+                            newForm.author_id.data = form.author_id.data
+
+                            newForm.title.data = form.title.data
+                            newForm.published_at.data = form.published_at.data
+                            newForm.text.data = form.text.data
+
+                            newForm.medium_id.data = form.medium_id.data
+                            newForm.document_type_id.data = form.document_type_id.data
+                            newForm.country_id.data = form.country_id.data
+                            newForm.analysis_nature_id.data = form.analysis_nature_id.data
+                            doc = Document()
+                            newForm.populate_obj(
+                                doc, request.form.getlist('attachments'))
+
+                            if current_user.is_authenticated:
+                                doc.created_by = current_user
+                                # change analysis default for this user
+                                current_user.default_analysis_nature_id = doc.analysis_nature_id
+
+                                # enforce a country
+                                if doc.country is None:
+                                    doc.country = current_user.country
+
+                            db.session.add(doc)
+                            db.session.flush()
+
+                            try:
+                                proc.process_document(doc)
+                                articles_count += 1
+                            except ProcessingError as e:
+                                log.error(
+                                    'Error processing raw document "{}": {}'.format(
+                                        file_name, e,),
+                                    exc_info=e)
+                                flash(
+                                    'Something went wrong processing the archive "{}": {}'.format(
+                                        archive_name, e,),
+                                    'error')
+                                doc = None
+
+                            # Remember the first doc added so as to allow
+                            # analysis from there
+                            if doc and not id:
+                                id = doc.id
+
+            if articles_count > 0:
+                db.session.commit()
+                flash('{} Article(s) added.'.format(articles_count))
+                return redirect(url_for('edit_article_analysis', id=id))
 
     return render_template('articles/new.haml',
                            url=url,
@@ -395,7 +481,7 @@ def edit_article_analysis(id):
                           52: [10, 11, 19], 53: [12, 19], 54: [13, 19],
                           55: [14, 19], 56: [15, 19], 57: [16, 19], 58: [17, 19], 59: [18, 19], 73: [19]}
 
-            if fdi_form.involvement_id1.data is not None:
+            if fdi_form.involvement_id1.data is not None and fdi_form.involvement_id1.data != 'None':
                 if int(fdi_form.involvement_id1.data) in list(t2_options.keys()):
                     fdi_form.involvement_id2.choices = [[str(c.id), c.name] for c in Involvements2.query.filter(Involvements2.id.in_(t2_options[int(fdi_form.involvement_id1.data)])).all()]
                 else:
