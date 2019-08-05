@@ -66,10 +66,7 @@ class NewstoolsCrawler(BaseCrawler):
     def fetch_text(self, url):
         r = requests.get(url, verify=False, timeout=60)
         r.raise_for_status()
-        return self.unescape(r.text)
-
-    def unescape(self, text):
-        return unescape(text)
+        return unescape(r.text)
 
 
 class NewstoolsCrawlerNT(BaseCrawler):
