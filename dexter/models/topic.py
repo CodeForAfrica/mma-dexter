@@ -19,10 +19,10 @@ class Topic(db.Model):
     analysis_nature_id = Column(Integer, ForeignKey('analysis_natures.id'), index=True, nullable=True)
 
     def __repr__(self):
-        return "<Topic name='{}'>".format(self.name.encode('utf-8'))
+        return "<Topic name='{}'>".format(self.name)
 
     def __str__(self):
-        return self.name.encode('utf-8')
+        return self.name
 
     def __unicode__(self):
         return self.name

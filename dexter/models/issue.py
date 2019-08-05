@@ -32,10 +32,10 @@ class Issue(db.Model):
     description = Column(String(100), index=True, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Issue name='{}'>".format(self.name.encode('utf-8'))
+        return "<Issue name='{}'>".format(self.name)
 
     def __str__(self):
-        return self.name.encode('utf-8')
+        return self.name
 
     def __unicode__(self):
         return self.name
