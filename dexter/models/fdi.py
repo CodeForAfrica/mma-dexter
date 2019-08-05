@@ -740,7 +740,7 @@ class Involvements1(db.Model):
     __tablename__ = "involvements1"
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(50), index=True, nullable=False, unique=True)
+    name = Column(String(100), index=True, nullable=False, unique=True)
 
     def __repr__(self):
         return "<Involvements1='{}'>".format(self.name)
@@ -775,7 +775,7 @@ class Involvements2(db.Model):
     __tablename__ = "involvements2"
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(50), index=True, nullable=False, unique=True)
+    name = Column(String(100), index=True, nullable=False, unique=True)
 
     def __repr__(self):
         return "<Involvements2='{}'>".format(self.name)
@@ -878,7 +878,7 @@ class Involvements3(db.Model):
     __tablename__ = "involvements3"
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(50), index=True, nullable=False, unique=True)
+    name = Column(String(100), index=True, nullable=False, unique=True)
 
     def __repr__(self):
         return "<Involvements3='{}'>".format(self.name)
