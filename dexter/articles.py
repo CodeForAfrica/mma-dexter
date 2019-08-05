@@ -177,13 +177,14 @@ def new_article():
                     for file_name in zip.namelist():
                         filename_parts = file_name.split(' - ')
                         if len(filename_parts) == 2:
-                            form.title.data = re.sub(r'\.txt', '', filename_parts[1]).strip()
+                            form.title.data = re.sub(r'\.txt$', '', filename_parts[1]).strip()
                             form.published_at.data = datetime.strptime(filename_parts[0], '%d-%b-%Y')
                             form.text.data = io.TextIOWrapper(io.BytesIO(zip.read(file_name))).read()
 
-                            # Validate using current form first before creating new doc for each file
+                            # Validate using current form first before creating
+                            # new form for each file in the zip archive
                             if form.validate():
-                                newForm= DocumentForm()
+                                newForm = DocumentForm()
                                 newForm.author_id.data = form.author_id.data
 
                                 newForm.title.data = form.title.data
@@ -195,7 +196,8 @@ def new_article():
                                 newForm.country_id.data = form.country_id.data
                                 newForm.analysis_nature_id.data = form.analysis_nature_id.data
                                 doc = Document()
-                                newForm.populate_obj(doc, request.form.getlist('attachments'))
+                                newForm.populate_obj(
+                                    doc, request.form.getlist('attachments'))
 
                                 db.session.add(doc)
                                 db.session.flush()
@@ -203,8 +205,10 @@ def new_article():
                                 try:
                                     proc.process_document(doc)
                                 except ProcessingError as e:
-                                    log.error("Error processing raw document: {}".format(e,), exc_info=e)
-                                    flash("Something went wrong processing the document: {}".format(e,), 'error')
+                                    log.error(
+                                        "Error processing raw document: {}".format(e,), exc_info=e)
+                                    flash("Something went wrong processing the document: {}".format(
+                                        e,), 'error')
                                     doc = None
 
         if doc:
