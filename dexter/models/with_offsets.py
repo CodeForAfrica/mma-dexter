@@ -3,13 +3,16 @@ import re
 class WithOffsets():
     """ Helper mixin for models that use offsets. Assumes the existence
     of a +offset_list+ attribute which contains a space-separated list of offset:length pairs.
+    NOTE(kilemensi): Looks like offset pairs are now ':' separated and they are (offset, length)
     """
-    SPACE_RE = re.compile(r' +')
+    # SPACE_RE = re.compile(r' +')
+    SPACE_RE = re.compile(r'[( )]')
 
     def offsets(self):
         """ Get an ordered list of +(offset, length)+ tuples of occurrences
         of this entity in the original document text. May be empty. """
-        offsets = (e.split(':') for e in self.SPACE_RE.split((self.offset_list or '').strip()))
+        offsets = self.SPACE_RE.sub('', self.offset_list or '')
+        offsets = [v.split(',') for v in offsets.split(':')]
         return sorted((int(pair[0]), int(pair[1])) for pair in offsets if pair and pair[0])
 
 
