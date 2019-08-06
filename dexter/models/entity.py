@@ -75,7 +75,7 @@ class Entity(db.Model):
         """ Get the entity with this group and name or create it if it doesn't exist. """
         name = sanitise_name(name)
 
-        e = Entity.query.filter(Entity.group == group, Entity.name == name).first()
+        e = Entity.query.filter(Entity.group == group[0:50], Entity.name == name[0:150]).first()
         if not e:
             e = Entity()
             e.group = group[0:50]
