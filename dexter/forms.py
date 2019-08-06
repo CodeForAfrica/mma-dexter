@@ -1,4 +1,4 @@
-from flask_wtf import Form as BaseForm
+from flask_wtf import FlaskForm as BaseForm
 from wtforms import SelectMultipleField, widgets, SelectField as WTFSelectField, RadioField as WTFRadioField, FormField as WTFFormField, FloatField as WTFFloatField, TextAreaField as WTFTextAreaField
 from wtforms.fields.html5 import IntegerField as WTFIntegerField
 from wtforms.widgets import HTMLString, html_params
