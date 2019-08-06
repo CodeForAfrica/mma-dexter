@@ -32,9 +32,12 @@ class Topic(db.Model):
             # sort ("10. Foo", "10.2 Bar") by the code
             parts = (self.group.split(' ', 1)[0], self.name.split(' ', 1)[0])
 
-            return [int(k.replace('.', '')) for k in parts]
+            parts_int = [int(k.replace('.', '')) for k in parts]
+            # Need to make sure it's a tuple of str
+            return tuple([str(k) for k in parts_int])
         except:
-            return (self.group, self.name)
+            # Group/name could be None
+            return (self.group or '', self.name or '')
 
     @classmethod
     def for_select_widget(cls, topics):
