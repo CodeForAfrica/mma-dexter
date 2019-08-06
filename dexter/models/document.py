@@ -226,7 +226,7 @@ class Document(FullText, db.Model):
         if self.text:
             # normalise newlines
             # first ensure they're all \n
-            self.text = universal_newline_re.sub("\n", self.text)
+            self.text = universal_newline_re.sub("\n", self.text.decode('utf-8'))
             # now ensure all \n's are double
             self.text = newlines_re.sub("\n\n", self.text)
 
@@ -317,6 +317,8 @@ class Document(FullText, db.Model):
 
 @event.listens_for(Document.text, 'set')
 def document_text_set(target, value, oldvalue, initiator):
+    if type(value) == bytes:
+        value = value.decode('utf-8')
     target.word_count = count_words(value)
 
 

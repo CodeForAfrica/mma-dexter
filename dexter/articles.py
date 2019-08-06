@@ -195,6 +195,7 @@ def new_article():
                            author_form=author_form)
 
 
+# TODO: Move this functionn to "extractors"
 def new_articles_from_archive(url, proc, form, author_form):
     if form.archive_file.data:
         # new document from article text
@@ -205,15 +206,18 @@ def new_articles_from_archive(url, proc, form, author_form):
             id = None
             archive_name = secure_filename(form.archive_file.name)
             with ZipFile(request.files[archive_name], 'r') as zip:
+                
                 for file_name in zip.namelist():
+                    if '__MACOSX' in file_name:
+                        continue
                     filename_parts = file_name.split(' - ')
                     if len(filename_parts) == 2:
                         form.title.data = re.sub(
                             r'\.txt$', '', filename_parts[1]).strip()
                         form.published_at.data = datetime.strptime(
                             filename_parts[0], '%d-%b-%Y')
-                        form.text.data = io.TextIOWrapper(
-                            io.BytesIO(zip.read(file_name))).read()
+                        with zip.open(file_name) as file:
+                            form.text.data = file.read()
 
                         # Validate using current form first before creating
                         # new form for each file in the zip archive

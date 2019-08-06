@@ -32,6 +32,8 @@ services:
       - PYTHONDONTWRITEBYTECODE=1
       - SQLALCHEMY_DATABASE_URI=mysql://dexter:dexter@db/dexter
       - BROKER_URL=redis://redis:6379/0
+    env_file:
+      - .env
     command: python app.py runserver --host=0.0.0.0
   
   worker:
