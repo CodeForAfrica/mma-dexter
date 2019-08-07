@@ -224,9 +224,12 @@ class Document(FullText, db.Model):
     def normalise_text(self):
         """ Run some normalisations on the document. """
         if self.text:
+            # Decode if byte
+            if type(self.text) == bytes:
+                self.text = self.text.decode('utf-8')
             # normalise newlines
             # first ensure they're all \n
-            self.text = universal_newline_re.sub("\n", self.text.decode('utf-8'))
+            self.text = universal_newline_re.sub("\n", self.text)
             # now ensure all \n's are double
             self.text = newlines_re.sub("\n\n", self.text)
 
