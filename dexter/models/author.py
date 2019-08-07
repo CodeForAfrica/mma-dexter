@@ -83,6 +83,9 @@ class AuthorType(db.Model):
     def __repr__(self):
         return "<AuthorType name='{}'>".format(self.name)
 
+    def __str__(self):
+        return self.name
+
     @classmethod
     def journalist(cls):
         return AuthorType.query.filter(AuthorType.name == 'Media: Journalist (Single)').one()
