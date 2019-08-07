@@ -70,6 +70,9 @@ class Entity(db.Model):
         # Since equality is based on name and group, hash must also be based on name and group
         return hash((self.name, self.group))
 
+    def __str__(self):
+        return self.name
+
     @classmethod
     def get_or_create(cls, group, name):
         """ Get the entity with this group and name or create it if it doesn't exist. """
