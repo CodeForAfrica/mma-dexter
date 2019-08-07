@@ -294,6 +294,9 @@ class Gender(db.Model):
     def __repr__(self):
         return "<Gender name='{}'>".format(self.name)
 
+    def __str__(self):
+        return self.name
+
     def abbr(self):
         return self.name[0:2].title()
 
@@ -333,6 +336,9 @@ class Race(db.Model):
 
     def __repr__(self):
         return "<Race name='{}'>".format(self.name)
+
+    def __str__(self):
+        return self.name
 
     def abbr(self):
         return self.name[0:2].title()

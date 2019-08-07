@@ -148,6 +148,9 @@ class Affiliation(db.Model):
     def __repr__(self):
         return "<Affiliation code='{}', name='{}'>".format(self.code.encode('utf-8'), self.name.encode('utf-8'))
 
+    def __str__(self):
+        return self.name
+
     @classmethod
     def organisations(cls, country):
       # because this list is heirarchical, we class 'organisations' as
