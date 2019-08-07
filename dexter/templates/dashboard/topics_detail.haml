@@ -38,7 +38,7 @@
               .col-sm-3.text-right
                 .badge.badge-default&= len(topic)
                 .score.text-muted(title='quality: %s' % topic.score)
-                  - for star in xrange(3):
+                  - for star in range(3):
                     - if star < topic.stars:
                       %i.fa.fa-star
                     - else:
