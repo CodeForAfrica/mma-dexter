@@ -64,7 +64,7 @@ class Entity(db.Model):
             and unidecode(self.name).lower() == unidecode(other.name).lower()
 
     def __repr__(self):
-        return "<Entity id={}, group=\"{}\", name=\"{}\">".format(self.id, self.group.encode('utf-8'), self.name.encode('utf-8'))
+        return "<Entity id={}, group=\"{}\", name=\"{}\">".format(self.id, self.group, self.name)
 
     def __hash__(self):
         # Since equality is based on name and group, hash must also be based on name and group
