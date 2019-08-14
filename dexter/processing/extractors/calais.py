@@ -93,6 +93,10 @@ class CalaisExtractor(BaseExtractor):
             # NOTE: set the ENV variable CALAIS_API_KEY before running the process
             if not self.API_KEY:
                 raise ValueError('{}.{}.API_KEY must be defined.'.format(self.__module__, self.__class__.__name__))
+            
+            # File size limit
+            if len(doc.text.encode('utf-8')) > 100000:
+                return {}
 
             res = requests.post(
                 'https://api.thomsonreuters.com/permid/calais',
